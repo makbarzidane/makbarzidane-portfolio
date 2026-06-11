@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #020617;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 1)),
+    #020617;
+  color: #e2e8f0;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.32);
+  color: #ffffff;
+}
+
+section {
+  scroll-margin-top: 5rem;
+}
+
+main,
+header,
+footer {
+  overflow-x: hidden;
+}
+
+.portfolio-window::after {
+  animation: scan 4.8s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.16), transparent);
+  content: "";
+  height: 100%;
+  left: -55%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 42%;
+}
+
+.hero-name {
+  overflow-wrap: anywhere;
+}
+
+.hero-ornament {
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.hero-ornament-a {
+  animation: float-profile 7s ease-in-out infinite;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(34, 211, 238, 0.08));
+  border-radius: 1.25rem;
+  height: 5.5rem;
+  right: 12%;
+  top: 24%;
+  transform: rotate(12deg);
+  width: 5.5rem;
+}
+
+.hero-ornament-b {
+  animation: float-profile 8s ease-in-out infinite reverse;
+  border-radius: 999px;
+  bottom: 16%;
+  height: 7rem;
+  left: 8%;
+  width: 7rem;
+}
+
+.portfolio-window {
+  max-width: 100%;
+}
+
+.profile-frame {
+  animation: float-profile 6s ease-in-out infinite;
+}
+
+.profile-frame::before {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.34), rgba(34, 211, 238, 0.12));
+  border-radius: 1rem;
+  content: "";
+  inset: -8px;
+  opacity: 0.45;
+  position: absolute;
+  transform: rotate(-3deg);
+  z-index: -1;
+}
+
+.profile-frame-large::after {
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.22), transparent);
+  content: "";
+  height: 100%;
+  left: -60%;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 48%;
+  animation: scan 5.5s ease-in-out infinite;
+}
+
+.portfolio-window a span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.agent-row {
+  position: relative;
+}
+
+.agent-row::before {
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.4), rgba(52, 211, 153, 0.08));
+  content: "";
+  height: calc(100% + 0.5rem);
+  left: 1.05rem;
+  opacity: 0.22;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+}
+
+.agent-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-card::after {
+  background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.12), transparent);
+  content: "";
+  height: 100%;
+  left: -60%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.2s ease;
+  width: 45%;
+}
+
+.agent-card:hover::after {
+  animation: scan 1.8s ease-out;
+  opacity: 1;
+}
+
+.project-preview {
+  position: relative;
+}
+
+.project-preview::after {
+  background: radial-gradient(circle at 22% 20%, rgba(34, 211, 238, 0.24), transparent 32%),
+    linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(52, 211, 153, 0.1));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.portfolio-card {
+  position: relative;
+}
+
+.portfolio-card::before {
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.16), transparent);
+  content: "";
+  height: 100%;
+  left: -55%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.2s ease;
+  width: 42%;
+  z-index: 2;
+}
+
+.portfolio-card:hover::before {
+  animation: scan 1.8s ease-out;
+  opacity: 1;
+}
+
+.portfolio-live-preview::after {
+  background: linear-gradient(180deg, transparent 45%, rgba(2, 6, 23, 0.58));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.typing-line {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.typing-line::after {
+  animation: cursor 0.9s steps(1) infinite;
+  content: "";
+  display: inline-block;
+  height: 1em;
+  margin-left: 4px;
+  vertical-align: -0.15em;
+  width: 6px;
+  background: #a7f3d0;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateX(0);
+  }
+  48%,
+  100% {
+    transform: translateX(380%);
+  }
+}
+
+@keyframes cursor {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes float-profile {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-name {
+    font-size: 2.35rem;
+  }
+
+  .hero-role {
+    font-size: 1.65rem;
+  }
+
+  .portfolio-window {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+a,
+button {
+  outline-color: #22d3ee;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
