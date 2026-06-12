@@ -33,7 +33,7 @@ export function Services() {
 
         <Reveal>
           <div className="mt-16 rounded-2xl border border-white/10 bg-slateGlass p-6 md:p-8">
-            <SectionTitle title="Kenapa memilih Zimeira Tech?" description="Pendekatan kerja dibuat praktis untuk kebutuhan bisnis kecil-menengah: jelas, fleksibel, dan siap dikembangkan." />
+            <SectionTitle title="Kenapa bekerja dengan saya?" description="Pendekatan kerja dibuat praktis untuk kebutuhan portfolio, UMKM, dan sistem digital: jelas, fleksibel, dan siap dikembangkan." />
             <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {whyChooseMe.map((item) => (
                 <div key={item} className="flex items-center gap-3 rounded-lg bg-white/7 p-3 text-sm text-slate-200">

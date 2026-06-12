@@ -6,8 +6,6 @@ import { ArrowLeft, Download, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2
 import { cmsStorageKey, defaultCmsContent, legacyCmsStorageKey, type EditableAgent, type EditableContent, type EditableProject } from "@/data/cmsContent";
 
 const cmsSessionKey = "m-akbar-zidane-cms-session";
-const cmsUsername = "admin";
-const cmsPassword = "akbar123";
 
 const emptyProject: EditableProject = {
   name: "Project Baru",
@@ -15,8 +13,8 @@ const emptyProject: EditableProject = {
   description: "Deskripsi singkat project.",
   stack: ["Next.js", "Tailwind CSS"],
   features: ["Fitur utama"],
-  demoUrl: "#",
-  githubUrl: "#",
+  demoUrl: "",
+  githubUrl: "",
   previewImage: ""
 };
 
@@ -70,14 +68,29 @@ export default function AdminPage() {
     setStatus("Konten tersimpan di browser. Buka halaman utama untuk melihat perubahan.");
   }
 
-  function login() {
-    if (username === cmsUsername && password === cmsPassword) {
-      window.localStorage.setItem(cmsSessionKey, "true");
-      setAuthenticated(true);
-      setStatus("Login berhasil.");
-      return;
+  async function login() {
+    setStatus("Memeriksa akses CMS...");
+    try {
+      const response = await fetch("/api/cms-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        setPassword("");
+        setUsername("");
+        window.localStorage.setItem(cmsSessionKey, "true");
+        setAuthenticated(true);
+        setStatus("Login berhasil.");
+        return;
+      }
+
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+      setStatus(result?.message || "Username atau password salah.");
+    } catch {
+      setStatus("Login gagal. Periksa koneksi atau konfigurasi server.");
     }
-    setStatus("Username atau password salah.");
   }
 
   function logout() {
@@ -164,9 +177,6 @@ export default function AdminPage() {
               Login
             </button>
           </div>
-          <p className="mt-4 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-xs text-slate-400">
-            Default: username <span className="text-white">admin</span>, password <span className="text-white">akbar123</span>.
-          </p>
           <p className="mt-3 text-sm text-emerald-100">{status}</p>
         </section>
       </main>

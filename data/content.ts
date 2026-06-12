@@ -82,6 +82,28 @@ export const techGroups = [
 
 export const projects: Project[] = [
   {
+    name: "M. Akbar Zidane Portfolio",
+    category: "Personal Portfolio Website",
+    description:
+      "Website portfolio pribadi untuk menampilkan profil, data diri, project pilihan, paket AI agent, CV, kontak, bilingual mode, animasi motion, dan CMS sederhana.",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
+    features: ["Hero profile visual", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
+    demoUrl: "https://m-akbar-zidane-portfolio.vercel.app",
+    githubUrl: "https://github.com/makbarzidane/makbarzidane-portfolio",
+    icon: Globe2
+  },
+  {
+    name: "Zimeira Agent Online",
+    category: "AI Agent Workflow",
+    description:
+      "Aplikasi agent berbasis Streamlit untuk menghasilkan paket layanan lengkap seperti sales script, brief, proposal, presentasi, caption, checklist, catatan teknis, dan reviewer.",
+    stack: ["Python", "Streamlit", "Prompt Engineering", "AI Workflow"],
+    features: ["Generate paket layanan", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
+    demoUrl: "https://zimeira-agent-online.streamlit.app/",
+    githubUrl: "https://github.com/makbarzidane/zimeira-agent-online",
+    icon: Bot
+  },
+  {
     name: "2Z Reklame & Cutting Sticker Company Profile",
     category: "Company Profile Website",
     description:
@@ -97,8 +119,8 @@ export const projects: Project[] = [
       "Kontak WhatsApp",
       "Deployment cPanel"
     ],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
+    githubUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
     icon: BriefcaseBusiness
   },
   {
@@ -108,8 +130,8 @@ export const projects: Project[] = [
       "Website landing page untuk menampilkan layanan digital seperti pembuatan website, sistem bisnis, dan solusi IT untuk UMKM.",
     stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
     features: ["Landing page jasa", "Section layanan", "CTA WhatsApp", "Portfolio preview", "Responsive design"],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
+    githubUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
     icon: Globe2
   },
   {
@@ -127,8 +149,8 @@ export const projects: Project[] = [
       "Ongkir integration planned",
       "Responsive e-commerce UI"
     ],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://e-commerce-portfolio.vercel.app/",
+    githubUrl: "https://github.com/makbarzidane/e-commerce-portfolio",
     icon: ShoppingBag
   },
   {
@@ -138,8 +160,8 @@ export const projects: Project[] = [
       "Website demo untuk brand kopi lokal Pagar Alam yang membantu UMKM kopi terlihat lebih profesional dan mudah menerima pemesanan.",
     stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
     features: ["Landing page kopi", "Menu produk", "Paket promo", "CTA WhatsApp order", "Galeri produk", "Desain UMKM profesional"],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
+    githubUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
     icon: Coffee
   },
   {
@@ -149,8 +171,8 @@ export const projects: Project[] = [
       "Website landing page untuk homestay yang menampilkan informasi penginapan, fasilitas, galeri, lokasi, dan pemesanan melalui WhatsApp.",
     stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
     features: ["Informasi homestay", "Galeri kamar", "Fasilitas", "CTA booking WhatsApp", "Lokasi", "Responsive layout"],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
+    githubUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
     icon: Home
   },
   {
@@ -168,8 +190,8 @@ export const projects: Project[] = [
       "Payment integration planned",
       "Cocok untuk cafe dan restoran"
     ],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
+    githubUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
     icon: LayoutDashboard
   },
   {
@@ -179,8 +201,8 @@ export const projects: Project[] = [
       "Project analisis sentimen review game Apex Legends dari platform Steam menggunakan pendekatan machine learning untuk mengetahui opini positif dan negatif dari pemain.",
     stack: ["Python", "Pandas", "Naive Bayes", "Data Cleaning", "Sentiment Analysis"],
     features: ["Dataset review Steam", "Preprocessing text", "Klasifikasi sentimen", "Insight bisnis", "Visualisasi hasil analisis"],
-    demoUrl: "#",
-    githubUrl: "#",
+    demoUrl: "https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam",
+    githubUrl: "https://github.com/makbarzidane/analisis_sentimen_revew_apex_legends_dashboard",
     icon: LineChart
   }
 ];

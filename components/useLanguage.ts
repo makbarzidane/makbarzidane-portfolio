@@ -35,6 +35,7 @@ export const copy = {
       description: "Preview memakai screenshot dari link live project. Ringkas, visual, dan fokus ke hasil.",
       selected: "Selected Work",
       live: "Live",
+      details: "Detail",
       github: "GitHub"
     },
     agent: {
@@ -98,6 +99,7 @@ export const copy = {
       description: "Preview images are generated from live project links. Concise, visual, and focused on results.",
       selected: "Selected Work",
       live: "Live",
+      details: "Details",
       github: "GitHub"
     },
     agent: {

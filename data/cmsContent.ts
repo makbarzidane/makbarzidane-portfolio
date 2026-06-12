@@ -49,6 +49,8 @@ export interface EditableContent {
 export const cmsStorageKey = "m-akbar-zidane-cms-content";
 export const legacyCmsStorageKey = "zimeira-tech-cms-content";
 
+const previewFrom = (url: string) => `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1280`;
+
 export const defaultCmsContent: EditableContent = {
   hero: {
     name: "M. Akbar Zidane",
@@ -59,7 +61,7 @@ export const defaultCmsContent: EditableContent = {
     bioEn:
       "Informatics student and developer building websites, digital systems, admin dashboards, e-commerce, QR ordering, and AI agent workflows to help businesses work faster.",
     photoUrl: "",
-    cvUrl: "#",
+    cvUrl: "/cv",
     location: "Pagar Alam, Sumatera Selatan",
     locationEn: "Pagar Alam, South Sumatra",
     study: "Mahasiswa Informatika",
@@ -75,6 +77,36 @@ export const defaultCmsContent: EditableContent = {
   },
   projects: [
     {
+      name: "M. Akbar Zidane Portfolio",
+      category: "Personal Portfolio Website",
+      categoryEn: "Personal Portfolio Website",
+      description:
+        "Website portfolio pribadi untuk menampilkan profil, data diri, project pilihan, paket AI agent, CV, kontak, bilingual mode, animasi motion, dan CMS sederhana.",
+      descriptionEn:
+        "Personal portfolio website for profile, selected projects, AI agent packages, CV, contacts, bilingual mode, motion animation, and a simple CMS.",
+      stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
+      features: ["Hero profile visual", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
+      featuresEn: ["Visual profile hero", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
+      demoUrl: "https://m-akbar-zidane-portfolio.vercel.app",
+      githubUrl: "https://github.com/makbarzidane/makbarzidane-portfolio",
+      previewImage: previewFrom("https://m-akbar-zidane-portfolio.vercel.app")
+    },
+    {
+      name: "Zimeira Agent Online",
+      category: "AI Agent Workflow",
+      categoryEn: "AI Agent Workflow",
+      description:
+        "Aplikasi agent berbasis Streamlit untuk menghasilkan paket layanan lengkap seperti sales script, brief, proposal, presentasi, caption, checklist, catatan teknis, dan reviewer.",
+      descriptionEn:
+        "Streamlit-based agent app for generating complete service packages such as sales scripts, briefs, proposals, presentations, captions, checklists, technical notes, and review output.",
+      stack: ["Python", "Streamlit", "Prompt Engineering", "AI Workflow"],
+      features: ["Generate paket layanan", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
+      featuresEn: ["Service package generator", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
+      demoUrl: "https://zimeira-agent-online.streamlit.app/",
+      githubUrl: "https://github.com/makbarzidane/zimeira-agent-online",
+      previewImage: previewFrom("https://zimeira-agent-online.streamlit.app/")
+    },
+    {
       name: "2Z Reklame & Cutting Sticker Company Profile",
       category: "Company Profile Website",
       categoryEn: "Company Profile Website",
@@ -85,9 +117,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["CodeIgniter 4", "PHP", "MySQL", "Bootstrap", "JavaScript", "cPanel"],
       features: ["Landing page company profile", "CRUD layanan", "CRUD portfolio", "CRUD galeri", "Slider hero dinamis"],
       featuresEn: ["Company profile landing page", "Services CRUD", "Portfolio CRUD", "Gallery CRUD", "Dynamic hero slider"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
+      githubUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
+      previewImage: previewFrom("https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane")
     },
     {
       name: "Zimeira Tech Website",
@@ -100,9 +132,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
       features: ["Landing page jasa", "Section layanan", "CTA WhatsApp", "Portfolio preview", "Responsive design"],
       featuresEn: ["Service landing page", "Service sections", "WhatsApp CTA", "Portfolio preview", "Responsive design"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
+      githubUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
+      previewImage: previewFrom("https://github.com/makbarzidane/zimeira-tech-website-portfolio")
     },
     {
       name: "E-Commerce Hijab Website",
@@ -115,9 +147,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Next.js", "React", "Tailwind CSS", "TypeScript", "GitHub", "Vercel"],
       features: ["Product catalog", "Product detail", "Cart", "Checkout flow", "Payment integration planned"],
       featuresEn: ["Product catalog", "Product detail", "Cart", "Checkout flow", "Payment integration planned"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://e-commerce-portfolio.vercel.app/",
+      githubUrl: "https://github.com/makbarzidane/e-commerce-portfolio",
+      previewImage: previewFrom("https://e-commerce-portfolio.vercel.app/")
     },
     {
       name: "Besemah Coffee",
@@ -130,9 +162,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
       features: ["Landing page kopi", "Menu produk", "Paket promo", "CTA WhatsApp order", "Galeri produk"],
       featuresEn: ["Coffee landing page", "Product menu", "Promo packages", "WhatsApp order CTA", "Product gallery"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
+      githubUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
+      previewImage: previewFrom("https://github.com/makbarzidane/besemah-coffee-cms-portfolio")
     },
     {
       name: "Homestay Bukit Dempo",
@@ -145,9 +177,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
       features: ["Informasi homestay", "Galeri kamar", "Fasilitas", "CTA booking WhatsApp", "Lokasi"],
       featuresEn: ["Homestay information", "Room gallery", "Facilities", "WhatsApp booking CTA", "Location"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
+      githubUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
+      previewImage: previewFrom("https://github.com/makbarzidane/homestay-bukit-dempo-portfolio")
     },
     {
       name: "QR Ordering System Cafe",
@@ -160,9 +192,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Next.js", "TypeScript", "Tailwind CSS", "API Route"],
       features: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
       featuresEn: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
+      githubUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
+      previewImage: previewFrom("https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ")
     },
     {
       name: "Apex Legends Sentiment Analysis",
@@ -175,9 +207,9 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Python", "Pandas", "Naive Bayes", "Data Cleaning", "Sentiment Analysis"],
       features: ["Dataset review Steam", "Preprocessing text", "Klasifikasi sentimen", "Insight bisnis", "Visualisasi hasil"],
       featuresEn: ["Steam review dataset", "Text preprocessing", "Sentiment classification", "Business insight", "Result visualization"],
-      demoUrl: "#",
-      githubUrl: "#",
-      previewImage: ""
+      demoUrl: "https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam",
+      githubUrl: "https://github.com/makbarzidane/analisis_sentimen_revew_apex_legends_dashboard",
+      previewImage: previewFrom("https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam")
     }
   ],
   agents: [

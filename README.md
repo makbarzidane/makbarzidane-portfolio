@@ -1,6 +1,28 @@
 # M. Akbar Zidane Portfolio
 
-Website landing page portfolio pribadi untuk M. Akbar Zidane. Project ini dibuat untuk menampilkan profil, data diri, portfolio project, AI agent workflow, CV, dan CTA kontak.
+Portfolio pribadi untuk **M. Akbar Zidane**. Website ini berfokus pada profile, data diri, hasil project, paket AI agent, CV, kontak, animasi motion, dan CMS sederhana untuk mengedit konten penting.
+
+Live website:
+
+```text
+https://m-akbar-zidane-portfolio.vercel.app
+```
+
+Repository:
+
+```text
+https://github.com/makbarzidane/makbarzidane-portfolio
+```
+
+## Fitur Utama
+
+- Landing portfolio personal dengan visual profile besar.
+- Animasi preloader dan reveal motion.
+- Portfolio project dengan preview visual dari link live atau GitHub.
+- Toggle bahasa Indonesia dan Inggris.
+- Halaman CV internal di `/cv`.
+- CMS sederhana di `/admin` dengan login via API server.
+- Data default bisa diedit dari source atau dari CMS browser.
 
 ## Tech Stack
 
@@ -9,54 +31,81 @@ Website landing page portfolio pribadi untuk M. Akbar Zidane. Project ini dibuat
 - Tailwind CSS
 - Framer Motion
 - Lucide Icons
+- Vercel
 
-## Cara Menjalankan Project
+## Menjalankan Project
 
 ```bash
 npm install
 npm run dev
 ```
 
-Buka `http://localhost:3000` di browser.
+Buka:
 
-## Mengganti Data Portfolio
+```text
+http://localhost:3000
+```
 
-Cara paling mudah adalah membuka halaman CMS:
+CMS:
 
-```bash
+```text
 http://localhost:3000/admin
 ```
 
-Dari CMS sederhana tersebut kamu bisa mengedit:
+## Konfigurasi Login CMS
 
-- Nama, role, bio singkat, dan foto
-- Link WhatsApp, GitHub, Instagram, dan Email
-- Data portfolio project
-- Data agent package
-- Export/import konten JSON
+Login CMS divalidasi melalui API route server, jadi credential tidak ditampilkan di halaman login.
 
-Data CMS disimpan di `localStorage` browser. Untuk versi permanen lintas perangkat, gunakan fitur Export JSON lalu jadikan data tersebut sebagai acuan update source code.
+Buat environment variable berikut di local atau Vercel:
 
-Data default website ada di `data/cmsContent.ts` dan `data/content.ts`.
+```text
+CMS_USERNAME
+CMS_PASSWORD
+```
 
-Yang bisa diganti dari file tersebut:
+Untuk local development, buat file `.env.local`:
 
-- Menu navbar
-- Tech stack
-- Project portfolio
-- AI project
-- Layanan
-- Alasan memilih
-- Link WhatsApp, GitHub, Instagram, dan Email
+```text
+CMS_USERNAME=isi_username
+CMS_PASSWORD=isi_password
+```
 
-Untuk link demo dan GitHub setiap project, ubah nilai `demoUrl` dan `githubUrl` pada array `projects`.
+## Mengedit Konten
 
-## Deploy ke Vercel
+Konten default berada di:
 
-1. Push project ke GitHub.
-2. Login ke Vercel.
-3. Import repository.
-4. Pastikan framework terdeteksi sebagai Next.js.
-5. Klik Deploy.
+```text
+data/cmsContent.ts
+```
 
-Project ini tidak menggunakan CMS dan database, jadi siap deploy sebagai landing page statis Next.js.
+Dari CMS `/admin`, kamu bisa mengedit:
+
+- Hero profile, foto, CV, dan data diri.
+- Kontak.
+- Project portfolio, link demo, link GitHub, dan preview image.
+- Paket AI agent.
+- Export/import JSON.
+
+Catatan: CMS sederhana menyimpan perubahan di `localStorage` browser. Untuk update permanen yang ikut terbaca semua pengunjung, ubah data default di `data/cmsContent.ts` atau integrasikan database/headless CMS.
+
+## Portfolio Default
+
+Project default yang ditampilkan:
+
+- M. Akbar Zidane Portfolio
+- Zimeira Agent Online
+- 2Z Reklame & Cutting Sticker Company Profile
+- Zimeira Tech Website
+- E-Commerce Hijab Website
+- Besemah Coffee
+- Homestay Bukit Dempo
+- QR Ordering System Cafe
+- Apex Legends Sentiment Analysis
+
+## Deploy
+
+Project ini siap deploy ke Vercel.
+
+```bash
+npx vercel --prod
+```
