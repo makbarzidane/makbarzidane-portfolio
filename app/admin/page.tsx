@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, Download, FileText, ImageIcon, Info, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload, XCircle } from "lucide-react";
 import { cmsStorageKey, defaultCmsContent, legacyCmsStorageKey, type EditableAgent, type EditableContent, type EditableProject } from "@/data/cmsContent";
+import { isBrowserAssetRef, storeBrowserFile, storeDataUrlAsBrowserAsset, useBrowserAssetUrl } from "@/components/browserAssets";
 
 const cmsSessionKey = "m-akbar-zidane-cms-session";
 
@@ -46,12 +47,6 @@ function fromLines(value: string) {
     .filter(Boolean);
 }
 
-function readFileAsDataUrl(file: File, onLoad: (value: string) => void) {
-  const reader = new FileReader();
-  reader.onload = () => onLoad(String(reader.result));
-  reader.readAsDataURL(file);
-}
-
 type StatusType = "success" | "error" | "info";
 
 const buttonStyles = {
@@ -91,10 +86,35 @@ export default function AdminPage() {
     setStatus({ message, type });
   }
 
-  function saveContent() {
+  async function migrateUploadedDataUrls(nextContent: EditableContent) {
+    const migrateValue = async (value: string, name: string) => {
+      if (!value.startsWith("data:") || isBrowserAssetRef(value)) return value;
+      return storeDataUrlAsBrowserAsset(value, name);
+    };
+
+    const projects = await Promise.all(
+      nextContent.projects.map(async (project, index) => ({
+        ...project,
+        previewImage: project.previewImage ? await migrateValue(project.previewImage, `project-preview-${index}.png`) : project.previewImage
+      }))
+    );
+
+    return {
+      ...nextContent,
+      hero: {
+        ...nextContent.hero,
+        photoUrl: nextContent.hero.photoUrl ? await migrateValue(nextContent.hero.photoUrl, "profile-photo") : "",
+        cvUrl: nextContent.hero.cvUrl ? await migrateValue(nextContent.hero.cvUrl, "cv-file") : "/cv"
+      },
+      projects
+    };
+  }
+
+  async function saveContent() {
     setSaving(true);
     try {
-      const payload = JSON.stringify(content);
+      const normalizedContent = await migrateUploadedDataUrls(content);
+      const payload = JSON.stringify(normalizedContent);
       window.localStorage.setItem(cmsStorageKey, payload);
       const saved = window.localStorage.getItem(cmsStorageKey);
 
@@ -102,11 +122,12 @@ export default function AdminPage() {
         throw new Error("Data tersimpan tidak sesuai.");
       }
 
+      setContent(normalizedContent);
       window.dispatchEvent(new Event("m-akbar-content-updated"));
       notify("Perubahan berhasil disimpan.");
     } catch (error) {
       const isQuotaError = error instanceof DOMException && (error.name === "QuotaExceededError" || error.name === "NS_ERROR_DOM_QUOTA_REACHED");
-      notify(isQuotaError ? "Gagal menyimpan. File upload terlalu besar untuk localStorage browser." : "Gagal menyimpan perubahan. Coba ulangi atau export JSON sebagai backup.", "error");
+      notify(isQuotaError ? "Storage browser penuh. Coba hapus file lama atau gunakan file yang lebih kecil." : "Gagal menyimpan perubahan. Coba ulangi atau export JSON sebagai backup.", "error");
     } finally {
       window.setTimeout(() => setSaving(false), 450);
     }
@@ -177,28 +198,38 @@ export default function AdminPage() {
     reader.readAsText(file);
   }
 
-  function uploadPhoto(event: ChangeEvent<HTMLInputElement>) {
+  async function uploadPhoto(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    readFileAsDataUrl(file, (value) => {
+    try {
+      const value = await storeBrowserFile(file);
       setContent((current) => ({
         ...current,
         hero: { ...current.hero, photoUrl: value }
       }));
-      notify("Foto dimuat. Klik Simpan untuk menerapkan.", "info");
-    });
+      notify("Foto berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
+    } catch {
+      notify("Gagal memuat foto. Coba file lain atau ukuran lebih kecil.", "error");
+    } finally {
+      event.target.value = "";
+    }
   }
 
-  function uploadCv(event: ChangeEvent<HTMLInputElement>) {
+  async function uploadCv(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    readFileAsDataUrl(file, (value) => {
+    try {
+      const value = await storeBrowserFile(file);
       setContent((current) => ({
         ...current,
         hero: { ...current.hero, cvUrl: value }
       }));
-      notify("File CV dimuat. Klik Simpan untuk menerapkan.", "info");
-    });
+      notify("File CV berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
+    } catch {
+      notify("Gagal memuat CV. Coba file lain atau ukuran lebih kecil.", "error");
+    } finally {
+      event.target.value = "";
+    }
   }
 
   if (!authenticated) {
@@ -250,7 +281,7 @@ export default function AdminPage() {
             </Link>
             <h1 className="mt-4 text-3xl font-semibold text-white">CMS Portfolio M. Akbar Zidane</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-              Edit bagian penting website dari browser. Data tersimpan di localStorage dan bisa export/import JSON.
+              Edit bagian penting website dari browser. Konten tersimpan di browser, sedangkan file upload disimpan terpisah agar tidak memenuhi localStorage.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -347,6 +378,7 @@ export default function AdminPage() {
                     projects[index] = next;
                     setContent({ ...content, projects });
                   }}
+                  notify={notify}
                   onRemove={() => setContent({ ...content, projects: content.projects.filter((_, itemIndex) => itemIndex !== index) })}
                 />
               ))}
@@ -430,7 +462,8 @@ function FileUploadField({
   onClear: () => void;
 }) {
   const Icon = icon === "image" ? ImageIcon : FileText;
-  const isImage = Boolean(value?.startsWith("data:image") || value?.startsWith("/") && /\.(png|jpg|jpeg|webp)$/i.test(value));
+  const resolvedValue = useBrowserAssetUrl(value);
+  const isImage = icon === "image" && Boolean(resolvedValue?.startsWith("blob:") || value?.startsWith("data:image") || value?.startsWith("/") && /\.(png|jpg|jpeg|webp)$/i.test(value));
   const hasCustomFile = Boolean(value && value !== "/cv");
 
   return (
@@ -448,7 +481,7 @@ function FileUploadField({
       {isImage && value ? (
         <div className="mt-4 aspect-[16/9] overflow-hidden rounded-lg border border-white/10 bg-slate-950/60">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={value} alt={`${label} preview`} className="h-full w-full object-cover object-top" />
+          <img src={resolvedValue || value} alt={`${label} preview`} className="h-full w-full object-cover object-top" />
         </div>
       ) : null}
 
@@ -468,13 +501,29 @@ function FileUploadField({
   );
 }
 
-function ProjectEditor({ project, onChange, onRemove }: { project: EditableProject; onChange: (project: EditableProject) => void; onRemove: () => void }) {
-  function uploadPreview(event: ChangeEvent<HTMLInputElement>) {
+function ProjectEditor({
+  project,
+  onChange,
+  onRemove,
+  notify
+}: {
+  project: EditableProject;
+  onChange: (project: EditableProject) => void;
+  onRemove: () => void;
+  notify: (message: string, type?: StatusType) => void;
+}) {
+  async function uploadPreview(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    readFileAsDataUrl(file, (value) => {
+    try {
+      const value = await storeBrowserFile(file);
       onChange({ ...project, previewImage: value });
-    });
+      notify("Preview project berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
+    } catch {
+      notify("Gagal memuat preview project. Coba file lain atau ukuran lebih kecil.", "error");
+    } finally {
+      event.target.value = "";
+    }
   }
 
   return (

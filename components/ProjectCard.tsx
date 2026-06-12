@@ -4,6 +4,7 @@
 
 import { ExternalLink, Github } from "lucide-react";
 import { useLanguage } from "@/components/useLanguage";
+import { isBrowserAssetRef, useBrowserAssetUrl } from "@/components/browserAssets";
 import type { EditableProject } from "@/data/cmsContent";
 
 interface ProjectCardProps {
@@ -24,7 +25,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const demoIsGithub = isGithubUrl(project.demoUrl);
   const showGithub = hasGithubUrl && project.githubUrl !== project.demoUrl;
   const previewSrc = project.previewImage || (hasDemoUrl ? `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1280` : "");
-  const liveHref = hasDemoUrl ? project.demoUrl : previewSrc;
+  const resolvedPreviewSrc = useBrowserAssetUrl(previewSrc);
+  const visiblePreviewSrc = resolvedPreviewSrc || (isBrowserAssetRef(previewSrc) ? "" : previewSrc);
+  const liveHref = hasDemoUrl ? project.demoUrl : visiblePreviewSrc;
   const stack = project.stack.slice(0, 4);
   const features = project.features.slice(0, 3);
   const { language, t } = useLanguage();
@@ -35,9 +38,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="portfolio-card group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.045] shadow-card transition hover:-translate-y-1 hover:border-violet-300/45 hover:bg-white/[0.07]">
       <div className="portfolio-live-preview relative aspect-[16/10] overflow-hidden border-b border-white/10 bg-[#061423]">
-        {previewSrc ? (
+        {visiblePreviewSrc ? (
           <img
-            src={previewSrc}
+            src={visiblePreviewSrc}
             alt={`${project.name} preview`}
             className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.03]"
             loading="lazy"

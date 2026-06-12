@@ -7,6 +7,7 @@ import { CtaButton } from "@/components/CtaButton";
 import { Reveal } from "@/components/Motion";
 import { useSiteContent } from "@/components/useSiteContent";
 import { useLanguage } from "@/components/useLanguage";
+import { isBrowserAssetRef, useBrowserAssetUrl } from "@/components/browserAssets";
 
 export function Hero() {
   const content = useSiteContent();
@@ -14,6 +15,9 @@ export function Hero() {
   const featured = content.projects.slice(0, 3);
   const role = language === "en" ? content.hero.roleEn || content.hero.role : content.hero.role;
   const bio = language === "en" ? content.hero.bioEn || content.hero.bio : content.hero.bio;
+  const photoUrl = useBrowserAssetUrl(content.hero.photoUrl);
+  const cvUrl = useBrowserAssetUrl(content.hero.cvUrl);
+  const cvHref = cvUrl || (isBrowserAssetRef(content.hero.cvUrl) ? "/cv" : content.hero.cvUrl);
 
   const facts = [
     { label: t.hero.location, value: language === "en" ? content.hero.locationEn || content.hero.location : content.hero.location, icon: MapPin },
@@ -53,7 +57,7 @@ export function Hero() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <CtaButton href="#portfolio" icon={<Layers3 size={18} />}>{t.hero.portfolio}</CtaButton>
-              <CtaButton href={content.hero.cvUrl} variant="secondary" icon={<Download size={18} />}>{t.hero.cv}</CtaButton>
+              <CtaButton href={cvHref} variant="secondary" icon={<Download size={18} />}>{t.hero.cv}</CtaButton>
               <CtaButton href={content.contacts.github} variant="ghost" icon={<Github size={18} />}>GitHub</CtaButton>
             </div>
 
@@ -76,8 +80,8 @@ export function Hero() {
           <div className="relative mx-auto w-full max-w-[560px]">
             <div className="profile-frame profile-frame-large relative mx-auto w-full max-w-[360px]">
               <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-violet-300/28 bg-violet-300/8 p-2 shadow-[0_26px_80px_rgba(139,92,246,0.22)]">
-                {content.hero.photoUrl ? (
-                  <img src={content.hero.photoUrl} alt={content.hero.name} className="h-full w-full rounded-xl object-cover" />
+                {photoUrl ? (
+                  <img src={photoUrl} alt={content.hero.name} className="h-full w-full rounded-xl object-cover" />
                 ) : (
                   <div className="grid h-full place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(139,92,246,0.22),rgba(34,211,238,0.12)),repeating-linear-gradient(90deg,rgba(255,255,255,0.06)_0_1px,transparent_1px_30px)]">
                     <div className="text-center">
