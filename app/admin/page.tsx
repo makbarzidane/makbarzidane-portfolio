@@ -76,7 +76,7 @@ export default function AdminPage() {
           setContent(merged);
           window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
           if (result.source === "default" && result.message) {
-            notify("Konten online belum aktif. Simpan membutuhkan CMS_GITHUB_TOKEN di Vercel.", "info");
+            notify("Konten online belum aktif. Simpan membutuhkan BLOB_READ_WRITE_TOKEN di Vercel.", "info");
           }
           return;
         }

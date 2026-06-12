@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { defaultCmsContent, type EditableContent } from "@/data/cmsContent";
 import { isCmsSessionValid } from "@/lib/cmsAuth";
-import { readRemoteContent, writeRemoteContent } from "@/lib/githubCmsStorage";
+import { readBlobContent, writeBlobContent } from "@/lib/vercelBlobCmsStorage";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const content = await readRemoteContent();
-    return NextResponse.json({ content, source: "github" });
+    const content = await readBlobContent();
+    return NextResponse.json({ content, source: "vercel-blob" });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Konten online belum tersedia.";
     return NextResponse.json({ content: defaultCmsContent, source: "default", message });
@@ -24,7 +26,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Data konten kosong." }, { status: 400 });
     }
 
-    await writeRemoteContent(body.content);
+    await writeBlobContent(body.content);
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Gagal menyimpan konten online.";

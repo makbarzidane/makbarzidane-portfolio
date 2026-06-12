@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isCmsSessionValid } from "@/lib/cmsAuth";
-import { writeRemoteAsset } from "@/lib/githubCmsStorage";
+import { writeBlobAsset } from "@/lib/vercelBlobCmsStorage";
 
 const allowedTypes = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf"]);
 const maxFileSize = 8 * 1024 * 1024;
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Ukuran file maksimal 8 MB." }, { status: 400 });
     }
 
-    const url = await writeRemoteAsset(file);
+    const url = await writeBlobAsset(file);
     return NextResponse.json({ url });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Gagal upload file online.";

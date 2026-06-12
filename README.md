@@ -22,7 +22,7 @@ https://github.com/makbarzidane/makbarzidane-portfolio
 - Toggle bahasa Indonesia dan Inggris.
 - Halaman CV internal di `/cv`.
 - CMS sederhana di `/admin` dengan login via API server.
-- CMS online berbasis GitHub Contents API agar perubahan terbaca dari laptop dan HP.
+- CMS online berbasis Vercel Blob agar perubahan terbaca dari laptop dan HP.
 
 ## Tech Stack
 
@@ -61,7 +61,7 @@ Buat environment variable berikut di local atau Vercel:
 ```text
 CMS_USERNAME
 CMS_PASSWORD
-CMS_GITHUB_TOKEN
+BLOB_READ_WRITE_TOKEN
 ```
 
 Untuk local development, buat file `.env.local`:
@@ -69,10 +69,10 @@ Untuk local development, buat file `.env.local`:
 ```text
 CMS_USERNAME=isi_username
 CMS_PASSWORD=isi_password
-CMS_GITHUB_TOKEN=isi_fine_grained_github_token
+BLOB_READ_WRITE_TOKEN=isi_token_vercel_blob
 ```
 
-`CMS_GITHUB_TOKEN` harus memiliki akses read/write **Contents** ke repository `makbarzidane/makbarzidane-portfolio`. Token ini dipakai server untuk menyimpan `data/remoteContent.json` dan file upload CMS ke `public/cms-uploads`.
+`BLOB_READ_WRITE_TOKEN` dibuat otomatis saat Vercel Blob Storage ditambahkan ke project. Token ini dipakai server untuk menyimpan `cms/content.json` dan file upload CMS ke folder `cms-uploads`.
 
 ## Mengedit Konten
 
@@ -90,7 +90,7 @@ Dari CMS `/admin`, kamu bisa mengedit:
 - Paket AI agent.
 - Export/import JSON.
 
-Catatan: perubahan CMS tersimpan online setelah `CMS_GITHUB_TOKEN` terpasang di Vercel. Tanpa token tersebut, API akan menampilkan pesan konfigurasi dan tidak menyimpan perubahan sebagai data online.
+Catatan: perubahan CMS tersimpan online setelah Vercel Blob Storage aktif dan `BLOB_READ_WRITE_TOKEN` terpasang di Vercel. Tanpa token tersebut, API akan menampilkan pesan konfigurasi dan tidak menyimpan perubahan sebagai data online.
 
 ## Portfolio Default
 
