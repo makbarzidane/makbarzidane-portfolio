@@ -68,11 +68,28 @@ export default function AdminPage() {
     setAuthenticated(window.localStorage.getItem(cmsSessionKey) === "true");
 
     async function loadInitialContent() {
+      const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
+      let localDraft: EditableContent | null = null;
+
+      if (stored) {
+        try {
+          localDraft = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
+        } catch {
+          localDraft = null;
+        }
+      }
+
       try {
         const response = await fetch("/api/cms-content", { cache: "no-store" });
         const result = (await response.json()) as { content?: Partial<EditableContent>; source?: string; message?: string };
         if (result.content) {
           const merged = mergeContent(result.content);
+          if (localDraft && JSON.stringify(localDraft) !== JSON.stringify(merged)) {
+            setContent(localDraft);
+            notify("Draft lokal dari browser ini ditemukan. Klik Simpan untuk menyimpannya online.", "info");
+            return;
+          }
+
           setContent(merged);
           window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
           if (result.source === "default" && result.message) {
@@ -84,11 +101,9 @@ export default function AdminPage() {
         notify("Gagal mengambil konten online. Memakai cache browser sementara.", "error");
       }
 
-      const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
-      if (stored) {
-        const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
-        window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
-        setContent(merged);
+      if (localDraft) {
+        window.localStorage.setItem(cmsStorageKey, JSON.stringify(localDraft));
+        setContent(localDraft);
       }
     }
 
