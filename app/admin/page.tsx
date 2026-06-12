@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Download, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
+import { ArrowLeft, Download, FileText, ImageIcon, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
 import { cmsStorageKey, defaultCmsContent, legacyCmsStorageKey, type EditableAgent, type EditableContent, type EditableProject } from "@/data/cmsContent";
 
 const cmsSessionKey = "m-akbar-zidane-cms-session";
@@ -43,6 +43,19 @@ function fromLines(value: string) {
     .map((item) => item.trim())
     .filter(Boolean);
 }
+
+function readFileAsDataUrl(file: File, onLoad: (value: string) => void) {
+  const reader = new FileReader();
+  reader.onload = () => onLoad(String(reader.result));
+  reader.readAsDataURL(file);
+}
+
+const buttonStyles = {
+  primary: "inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200",
+  neutral: "inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-4 py-2.5 text-sm font-semibold text-white transition hover:border-cyan-300/35 hover:bg-white/[0.07]",
+  danger: "inline-flex items-center justify-center gap-2 rounded-lg border border-red-300/30 bg-red-300/5 px-4 py-2.5 text-sm font-semibold text-red-100 transition hover:bg-red-300/10",
+  ghost: "inline-flex items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300/5 px-4 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
+};
 
 export default function AdminPage() {
   const [content, setContent] = useState<EditableContent>(defaultCmsContent);
@@ -134,15 +147,25 @@ export default function AdminPage() {
   function uploadPhoto(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
+    readFileAsDataUrl(file, (value) => {
       setContent((current) => ({
         ...current,
-        hero: { ...current.hero, photoUrl: String(reader.result) }
+        hero: { ...current.hero, photoUrl: value }
       }));
       setStatus("Foto dimuat. Klik Simpan untuk menerapkan.");
-    };
-    reader.readAsDataURL(file);
+    });
+  }
+
+  function uploadCv(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    readFileAsDataUrl(file, (value) => {
+      setContent((current) => ({
+        ...current,
+        hero: { ...current.hero, cvUrl: value }
+      }));
+      setStatus("File CV dimuat. Klik Simpan untuk menerapkan.");
+    });
   }
 
   if (!authenticated) {
@@ -172,7 +195,7 @@ export default function AdminPage() {
                 className="rounded-lg border border-white/10 bg-slate-950/55 px-3 py-2 text-white outline-none transition focus:border-cyan-300/60"
               />
             </label>
-            <button onClick={login} className="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 py-3 text-sm font-semibold text-slate-950">
+            <button onClick={login} className={buttonStyles.primary}>
               <LogIn size={16} />
               Login
             </button>
@@ -198,24 +221,24 @@ export default function AdminPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button onClick={saveContent} className="inline-flex items-center gap-2 rounded-lg bg-cyan-300 px-4 py-2 text-sm font-semibold text-slate-950">
+            <button onClick={saveContent} className={buttonStyles.primary}>
               <Save size={16} />
               Simpan
             </button>
-            <button onClick={exportContent} className="inline-flex items-center gap-2 rounded-lg border border-white/12 px-4 py-2 text-sm font-semibold text-white">
+            <button onClick={exportContent} className={buttonStyles.neutral}>
               <Download size={16} />
               Export
             </button>
-            <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/12 px-4 py-2 text-sm font-semibold text-white">
+            <label className={`${buttonStyles.neutral} cursor-pointer`}>
               <Upload size={16} />
               Import
               <input type="file" accept="application/json" onChange={importContent} className="hidden" />
             </label>
-            <button onClick={resetContent} className="inline-flex items-center gap-2 rounded-lg border border-red-300/30 px-4 py-2 text-sm font-semibold text-red-100">
+            <button onClick={resetContent} className={buttonStyles.danger}>
               <RotateCcw size={16} />
               Reset
             </button>
-            <button onClick={logout} className="inline-flex items-center gap-2 rounded-lg border border-white/12 px-4 py-2 text-sm font-semibold text-white">
+            <button onClick={logout} className={buttonStyles.neutral}>
               <LogOut size={16} />
               Logout
             </button>
@@ -233,14 +256,27 @@ export default function AdminPage() {
               <Field label="Role EN" value={content.hero.roleEn || ""} onChange={(value) => setContent({ ...content, hero: { ...content.hero, roleEn: value } })} />
               <Textarea label="Bio Singkat" value={content.hero.bio} onChange={(value) => setContent({ ...content, hero: { ...content.hero, bio: value } })} />
               <Textarea label="Bio EN" value={content.hero.bioEn || ""} onChange={(value) => setContent({ ...content, hero: { ...content.hero, bioEn: value } })} />
-              <Field label="Foto URL / Base64" value={content.hero.photoUrl} onChange={(value) => setContent({ ...content, hero: { ...content.hero, photoUrl: value } })} />
-              <Field label="CV URL" value={content.hero.cvUrl} onChange={(value) => setContent({ ...content, hero: { ...content.hero, cvUrl: value } })} />
-              <label className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-lg border border-cyan-300/30 px-4 py-2 text-sm font-semibold text-cyan-100">
-                <Upload size={16} />
-                Upload Foto
-                <input type="file" accept="image/*" onChange={uploadPhoto} className="hidden" />
-              </label>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2">
+                <FileUploadField
+                  label="Foto Profil"
+                  description="Upload file gambar dari perangkat."
+                  accept="image/*"
+                  icon="image"
+                  value={content.hero.photoUrl}
+                  onUpload={uploadPhoto}
+                  onClear={() => setContent({ ...content, hero: { ...content.hero, photoUrl: "" } })}
+                />
+                <FileUploadField
+                  label="File CV"
+                  description="Upload PDF atau gambar CV. Default tetap halaman /cv."
+                  accept=".pdf,image/*"
+                  icon="file"
+                  value={content.hero.cvUrl}
+                  onUpload={uploadCv}
+                  onClear={() => setContent({ ...content, hero: { ...content.hero, cvUrl: "/cv" } })}
+                />
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 <Field label="Lokasi" value={content.hero.location} onChange={(value) => setContent({ ...content, hero: { ...content.hero, location: value } })} />
                 <Field label="Status Pendidikan" value={content.hero.study} onChange={(value) => setContent({ ...content, hero: { ...content.hero, study: value } })} />
                 <Field label="Availability" value={content.hero.availability} onChange={(value) => setContent({ ...content, hero: { ...content.hero, availability: value } })} />
@@ -262,7 +298,7 @@ export default function AdminPage() {
               <h2 className="text-xl font-semibold text-white">Portfolio Project</h2>
               <button
                 onClick={() => setContent({ ...content, projects: [emptyProject, ...content.projects] })}
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-950"
+                className={buttonStyles.primary}
               >
                 <Plus size={16} />
                 Project
@@ -290,7 +326,7 @@ export default function AdminPage() {
             <h2 className="text-xl font-semibold text-white">Agent Package</h2>
             <button
               onClick={() => setContent({ ...content, agents: [...content.agents, emptyAgent] })}
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-950"
+              className={buttonStyles.primary}
             >
               <Plus size={16} />
               Agent
@@ -318,12 +354,12 @@ export default function AdminPage() {
 
 function Field({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
-    <label className="grid gap-2 text-sm">
+    <label className="grid min-w-0 gap-2 text-sm">
       <span className="font-medium text-slate-300">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-lg border border-white/10 bg-slate-950/55 px-3 py-2 text-white outline-none transition focus:border-cyan-300/60"
+        className="min-w-0 rounded-lg border border-white/10 bg-slate-950/55 px-3 py-2.5 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300/60"
       />
     </label>
   );
@@ -331,15 +367,71 @@ function Field({ label, value, onChange }: { label: string; value: string; onCha
 
 function Textarea({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
-    <label className="grid gap-2 text-sm">
+    <label className="grid min-w-0 gap-2 text-sm">
       <span className="font-medium text-slate-300">{label}</span>
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
         rows={4}
-        className="rounded-lg border border-white/10 bg-slate-950/55 px-3 py-2 text-white outline-none transition focus:border-cyan-300/60"
+        className="min-w-0 resize-y rounded-lg border border-white/10 bg-slate-950/55 px-3 py-2.5 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300/60"
       />
     </label>
+  );
+}
+
+function FileUploadField({
+  label,
+  description,
+  accept,
+  value,
+  icon,
+  onUpload,
+  onClear
+}: {
+  label: string;
+  description: string;
+  accept: string;
+  value?: string;
+  icon: "image" | "file";
+  onUpload: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClear: () => void;
+}) {
+  const Icon = icon === "image" ? ImageIcon : FileText;
+  const isImage = Boolean(value?.startsWith("data:image") || value?.startsWith("/") && /\.(png|jpg|jpeg|webp)$/i.test(value));
+  const hasCustomFile = Boolean(value && value !== "/cv");
+
+  return (
+    <div className="min-w-0 rounded-xl border border-white/10 bg-slate-950/35 p-4">
+      <div className="flex items-start gap-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-cyan-300/10 text-cyan-100">
+          <Icon size={18} />
+        </span>
+        <div className="min-w-0">
+          <p className="font-medium text-white">{label}</p>
+          <p className="mt-1 text-xs leading-5 text-slate-400">{description}</p>
+        </div>
+      </div>
+
+      {isImage && value ? (
+        <div className="mt-4 aspect-[16/9] overflow-hidden rounded-lg border border-white/10 bg-slate-950/60">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={value} alt={`${label} preview`} className="h-full w-full object-cover object-top" />
+        </div>
+      ) : null}
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <label className={`${buttonStyles.ghost} cursor-pointer`}>
+          <Upload size={16} />
+          Pilih File
+          <input type="file" accept={accept} onChange={onUpload} className="hidden" />
+        </label>
+        {hasCustomFile ? (
+          <button onClick={onClear} className={buttonStyles.neutral} type="button">
+            Hapus
+          </button>
+        ) : null}
+      </div>
+    </div>
   );
 }
 
@@ -347,11 +439,9 @@ function ProjectEditor({ project, onChange, onRemove }: { project: EditableProje
   function uploadPreview(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      onChange({ ...project, previewImage: String(reader.result) });
-    };
-    reader.readAsDataURL(file);
+    readFileAsDataUrl(file, (value) => {
+      onChange({ ...project, previewImage: value });
+    });
   }
 
   return (
@@ -363,20 +453,27 @@ function ProjectEditor({ project, onChange, onRemove }: { project: EditableProje
         </button>
       </div>
       <div className="mt-4 grid gap-3">
-        <Field label="Nama Project" value={project.name} onChange={(value) => onChange({ ...project, name: value })} />
-        <Field label="Kategori" value={project.category} onChange={(value) => onChange({ ...project, category: value })} />
-        <Field label="Category EN" value={project.categoryEn || ""} onChange={(value) => onChange({ ...project, categoryEn: value })} />
+        <div className="grid gap-3 md:grid-cols-2">
+          <Field label="Nama Project" value={project.name} onChange={(value) => onChange({ ...project, name: value })} />
+          <Field label="Kategori" value={project.category} onChange={(value) => onChange({ ...project, category: value })} />
+          <Field label="Category EN" value={project.categoryEn || ""} onChange={(value) => onChange({ ...project, categoryEn: value })} />
+        </div>
         <Textarea label="Deskripsi" value={project.description} onChange={(value) => onChange({ ...project, description: value })} />
         <Textarea label="Description EN" value={project.descriptionEn || ""} onChange={(value) => onChange({ ...project, descriptionEn: value })} />
-        <Textarea label="Tech Stack per baris" value={toLines(project.stack)} onChange={(value) => onChange({ ...project, stack: fromLines(value) })} />
-        <Textarea label="Fitur per baris" value={toLines(project.features)} onChange={(value) => onChange({ ...project, features: fromLines(value) })} />
-        <Textarea label="Features EN per baris" value={toLines(project.featuresEn || [])} onChange={(value) => onChange({ ...project, featuresEn: fromLines(value) })} />
-        <Field label="Preview Image URL / Base64" value={project.previewImage || ""} onChange={(value) => onChange({ ...project, previewImage: value })} />
-        <label className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-lg border border-cyan-300/30 px-4 py-2 text-sm font-semibold text-cyan-100">
-          <Upload size={16} />
-          Upload Preview
-          <input type="file" accept="image/*" onChange={uploadPreview} className="hidden" />
-        </label>
+        <div className="grid gap-3 md:grid-cols-2">
+          <Textarea label="Tech Stack per baris" value={toLines(project.stack)} onChange={(value) => onChange({ ...project, stack: fromLines(value) })} />
+          <Textarea label="Fitur per baris" value={toLines(project.features)} onChange={(value) => onChange({ ...project, features: fromLines(value) })} />
+          <Textarea label="Features EN per baris" value={toLines(project.featuresEn || [])} onChange={(value) => onChange({ ...project, featuresEn: fromLines(value) })} />
+        </div>
+        <FileUploadField
+          label="Preview Project"
+          description="Upload screenshot project dari file gambar."
+          accept="image/*"
+          icon="image"
+          value={project.previewImage || ""}
+          onUpload={uploadPreview}
+          onClear={() => onChange({ ...project, previewImage: "" })}
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Demo URL" value={project.demoUrl} onChange={(value) => onChange({ ...project, demoUrl: value })} />
           <Field label="GitHub URL" value={project.githubUrl} onChange={(value) => onChange({ ...project, githubUrl: value })} />

@@ -94,16 +94,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ))}
         </div>
 
-        <div className="mt-5 flex items-center gap-3">
-          <a
-            href={project.demoUrl}
-            target={hasDemoUrl ? "_blank" : undefined}
-            rel={hasDemoUrl ? "noreferrer" : undefined}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
-          >
-            <ExternalLink size={16} />
-            {demoLabel}
-          </a>
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          {hasDemoUrl ? (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
+            >
+              <ExternalLink size={16} />
+              {demoLabel}
+            </a>
+          ) : null}
           {showGithub ? (
             <a
               href={project.githubUrl}

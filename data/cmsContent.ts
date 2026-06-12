@@ -49,8 +49,6 @@ export interface EditableContent {
 export const cmsStorageKey = "m-akbar-zidane-cms-content";
 export const legacyCmsStorageKey = "zimeira-tech-cms-content";
 
-const previewFrom = (url: string) => `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1280`;
-
 export const defaultCmsContent: EditableContent = {
   hero: {
     name: "M. Akbar Zidane",
@@ -89,7 +87,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Visual profile hero", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
       demoUrl: "https://m-akbar-zidane-portfolio.vercel.app",
       githubUrl: "https://github.com/makbarzidane/makbarzidane-portfolio",
-      previewImage: previewFrom("https://m-akbar-zidane-portfolio.vercel.app")
+      previewImage: "/portfolio/m-akbar-zidane-portfolio.png"
     },
     {
       name: "Zimeira Agent Online",
@@ -104,7 +102,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Service package generator", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
       demoUrl: "https://zimeira-agent-online.streamlit.app/",
       githubUrl: "https://github.com/makbarzidane/zimeira-agent-online",
-      previewImage: previewFrom("https://zimeira-agent-online.streamlit.app/")
+      previewImage: "/portfolio/zimeira-agent-online.png"
     },
     {
       name: "2Z Reklame & Cutting Sticker Company Profile",
@@ -119,7 +117,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Company profile landing page", "Services CRUD", "Portfolio CRUD", "Gallery CRUD", "Dynamic hero slider"],
       demoUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
       githubUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
-      previewImage: previewFrom("https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane")
+      previewImage: "/portfolio/2z-reklame.png"
     },
     {
       name: "Zimeira Tech Website",
@@ -134,7 +132,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Service landing page", "Service sections", "WhatsApp CTA", "Portfolio preview", "Responsive design"],
       demoUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
       githubUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
-      previewImage: previewFrom("https://github.com/makbarzidane/zimeira-tech-website-portfolio")
+      previewImage: "/portfolio/zimeira-tech-website.png"
     },
     {
       name: "E-Commerce Hijab Website",
@@ -149,7 +147,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Product catalog", "Product detail", "Cart", "Checkout flow", "Payment integration planned"],
       demoUrl: "https://e-commerce-portfolio.vercel.app/",
       githubUrl: "https://github.com/makbarzidane/e-commerce-portfolio",
-      previewImage: previewFrom("https://e-commerce-portfolio.vercel.app/")
+      previewImage: "/portfolio/ecommerce-hijab.png"
     },
     {
       name: "Besemah Coffee",
@@ -164,7 +162,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Coffee landing page", "Product menu", "Promo packages", "WhatsApp order CTA", "Product gallery"],
       demoUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
       githubUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
-      previewImage: previewFrom("https://github.com/makbarzidane/besemah-coffee-cms-portfolio")
+      previewImage: "/portfolio/besemah-coffee.png"
     },
     {
       name: "Homestay Bukit Dempo",
@@ -179,7 +177,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Homestay information", "Room gallery", "Facilities", "WhatsApp booking CTA", "Location"],
       demoUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
       githubUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
-      previewImage: previewFrom("https://github.com/makbarzidane/homestay-bukit-dempo-portfolio")
+      previewImage: "/portfolio/homestay-bukit-dempo.png"
     },
     {
       name: "QR Ordering System Cafe",
@@ -194,7 +192,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
       demoUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
       githubUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
-      previewImage: previewFrom("https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ")
+      previewImage: "/portfolio/qr-ordering-cafe.png"
     },
     {
       name: "Apex Legends Sentiment Analysis",
@@ -209,7 +207,7 @@ export const defaultCmsContent: EditableContent = {
       featuresEn: ["Steam review dataset", "Text preprocessing", "Sentiment classification", "Business insight", "Result visualization"],
       demoUrl: "https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam",
       githubUrl: "https://github.com/makbarzidane/analisis_sentimen_revew_apex_legends_dashboard",
-      previewImage: previewFrom("https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam")
+      previewImage: "/portfolio/apex-sentiment.png"
     }
   ],
   agents: [
