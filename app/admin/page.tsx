@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Download, FileText, ImageIcon, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, CheckCircle2, Download, FileText, ImageIcon, Info, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload, XCircle } from "lucide-react";
 import { cmsStorageKey, defaultCmsContent, legacyCmsStorageKey, type EditableAgent, type EditableContent, type EditableProject } from "@/data/cmsContent";
 
 const cmsSessionKey = "m-akbar-zidane-cms-session";
@@ -51,19 +52,22 @@ function readFileAsDataUrl(file: File, onLoad: (value: string) => void) {
   reader.readAsDataURL(file);
 }
 
+type StatusType = "success" | "error" | "info";
+
 const buttonStyles = {
-  primary: "inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200",
-  neutral: "inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-4 py-2.5 text-sm font-semibold text-white transition hover:border-cyan-300/35 hover:bg-white/[0.07]",
-  danger: "inline-flex items-center justify-center gap-2 rounded-lg border border-red-300/30 bg-red-300/5 px-4 py-2.5 text-sm font-semibold text-red-100 transition hover:bg-red-300/10",
-  ghost: "inline-flex items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300/5 px-4 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
+  primary: "group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-[0_0_0_rgba(34,211,238,0)] transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 hover:shadow-[0_14px_32px_rgba(34,211,238,0.18)] active:translate-y-0 active:scale-[0.98]",
+  neutral: "group inline-flex items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-4 py-2.5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/35 hover:bg-white/[0.07] active:translate-y-0 active:scale-[0.98]",
+  danger: "group inline-flex items-center justify-center gap-2 rounded-lg border border-red-300/30 bg-red-300/5 px-4 py-2.5 text-sm font-semibold text-red-100 transition duration-200 hover:-translate-y-0.5 hover:bg-red-300/10 active:translate-y-0 active:scale-[0.98]",
+  ghost: "group inline-flex items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300/5 px-4 py-2.5 text-sm font-semibold text-cyan-100 transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-300/10 active:translate-y-0 active:scale-[0.98]"
 };
 
 export default function AdminPage() {
   const [content, setContent] = useState<EditableContent>(defaultCmsContent);
-  const [status, setStatus] = useState("Belum ada perubahan disimpan.");
+  const [status, setStatus] = useState<{ message: string; type: StatusType } | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setAuthenticated(window.localStorage.getItem(cmsSessionKey) === "true");
@@ -75,15 +79,41 @@ export default function AdminPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!status) return;
+    const timer = window.setTimeout(() => setStatus(null), status.type === "error" ? 5200 : 3200);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
   const jsonPreview = useMemo(() => JSON.stringify(content, null, 2), [content]);
 
+  function notify(message: string, type: StatusType = "success") {
+    setStatus({ message, type });
+  }
+
   function saveContent() {
-    window.localStorage.setItem(cmsStorageKey, JSON.stringify(content));
-    setStatus("Konten tersimpan di browser. Buka halaman utama untuk melihat perubahan.");
+    setSaving(true);
+    try {
+      const payload = JSON.stringify(content);
+      window.localStorage.setItem(cmsStorageKey, payload);
+      const saved = window.localStorage.getItem(cmsStorageKey);
+
+      if (saved !== payload) {
+        throw new Error("Data tersimpan tidak sesuai.");
+      }
+
+      window.dispatchEvent(new Event("m-akbar-content-updated"));
+      notify("Perubahan berhasil disimpan.");
+    } catch (error) {
+      const isQuotaError = error instanceof DOMException && (error.name === "QuotaExceededError" || error.name === "NS_ERROR_DOM_QUOTA_REACHED");
+      notify(isQuotaError ? "Gagal menyimpan. File upload terlalu besar untuk localStorage browser." : "Gagal menyimpan perubahan. Coba ulangi atau export JSON sebagai backup.", "error");
+    } finally {
+      window.setTimeout(() => setSaving(false), 450);
+    }
   }
 
   async function login() {
-    setStatus("Memeriksa akses CMS...");
+    notify("Memeriksa akses CMS...", "info");
     try {
       const response = await fetch("/api/cms-login", {
         method: "POST",
@@ -96,14 +126,14 @@ export default function AdminPage() {
         setUsername("");
         window.localStorage.setItem(cmsSessionKey, "true");
         setAuthenticated(true);
-        setStatus("Login berhasil.");
+        notify("Login berhasil.");
         return;
       }
 
       const result = (await response.json().catch(() => null)) as { message?: string } | null;
-      setStatus(result?.message || "Username atau password salah.");
+      notify(result?.message || "Username atau password salah.", "error");
     } catch {
-      setStatus("Login gagal. Periksa koneksi atau konfigurasi server.");
+      notify("Login gagal. Periksa koneksi atau konfigurasi server.", "error");
     }
   }
 
@@ -111,13 +141,14 @@ export default function AdminPage() {
     window.localStorage.removeItem(cmsSessionKey);
     setAuthenticated(false);
     setPassword("");
-    setStatus("Logout berhasil.");
+    notify("Logout berhasil.");
   }
 
   function resetContent() {
     window.localStorage.removeItem(cmsStorageKey);
     setContent(defaultCmsContent);
-    setStatus("Konten dikembalikan ke default.");
+    window.dispatchEvent(new Event("m-akbar-content-updated"));
+    notify("Konten dikembalikan ke default.");
   }
 
   function exportContent() {
@@ -128,6 +159,7 @@ export default function AdminPage() {
     link.download = "m-akbar-zidane-content.json";
     link.click();
     URL.revokeObjectURL(url);
+    notify("File JSON berhasil diexport.");
   }
 
   function importContent(event: ChangeEvent<HTMLInputElement>) {
@@ -137,9 +169,9 @@ export default function AdminPage() {
     reader.onload = () => {
       try {
         setContent(JSON.parse(String(reader.result)) as EditableContent);
-        setStatus("File JSON berhasil dimuat. Klik Simpan untuk menerapkan.");
+        notify("File JSON berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
       } catch {
-        setStatus("File JSON tidak valid.");
+        notify("File JSON tidak valid.", "error");
       }
     };
     reader.readAsText(file);
@@ -153,7 +185,7 @@ export default function AdminPage() {
         ...current,
         hero: { ...current.hero, photoUrl: value }
       }));
-      setStatus("Foto dimuat. Klik Simpan untuk menerapkan.");
+      notify("Foto dimuat. Klik Simpan untuk menerapkan.", "info");
     });
   }
 
@@ -165,7 +197,7 @@ export default function AdminPage() {
         ...current,
         hero: { ...current.hero, cvUrl: value }
       }));
-      setStatus("File CV dimuat. Klik Simpan untuk menerapkan.");
+      notify("File CV dimuat. Klik Simpan untuk menerapkan.", "info");
     });
   }
 
@@ -201,7 +233,7 @@ export default function AdminPage() {
               Login
             </button>
           </div>
-          <p className="mt-3 text-sm text-emerald-100">{status}</p>
+          <StatusToast status={status} onClose={() => setStatus(null)} />
         </section>
       </main>
     );
@@ -222,9 +254,9 @@ export default function AdminPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button onClick={saveContent} className={buttonStyles.primary}>
-              <Save size={16} />
-              Simpan
+            <button onClick={saveContent} disabled={saving} className={`${buttonStyles.primary} disabled:pointer-events-none disabled:opacity-70`}>
+              <Save size={16} className={saving ? "animate-pulse" : ""} />
+              {saving ? "Menyimpan..." : "Simpan"}
             </button>
             <button onClick={exportContent} className={buttonStyles.neutral}>
               <Download size={16} />
@@ -246,10 +278,10 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <p className="mt-4 rounded-lg border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm text-emerald-100">{status}</p>
+        <StatusToast status={status} onClose={() => setStatus(null)} />
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+          <section className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 transition duration-200 hover:border-cyan-300/25 hover:bg-white/[0.055]">
             <h2 className="text-xl font-semibold text-white">Hero, Foto, dan Kontak</h2>
             <div className="mt-5 grid gap-4">
               <Field label="Nama" value={content.hero.name} onChange={(value) => setContent({ ...content, hero: { ...content.hero, name: value } })} />
@@ -294,7 +326,7 @@ export default function AdminPage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+          <section className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 transition duration-200 hover:border-cyan-300/25 hover:bg-white/[0.055]">
             <div className="flex items-center justify-between gap-4">
               <h2 className="text-xl font-semibold text-white">Portfolio Project</h2>
               <button
@@ -322,7 +354,7 @@ export default function AdminPage() {
           </section>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.045] p-5">
+        <section className="mt-6 rounded-2xl border border-white/10 bg-white/[0.045] p-5 transition duration-200 hover:border-cyan-300/25 hover:bg-white/[0.055]">
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-xl font-semibold text-white">Agent Package</h2>
             <button
@@ -402,7 +434,7 @@ function FileUploadField({
   const hasCustomFile = Boolean(value && value !== "/cv");
 
   return (
-    <div className="min-w-0 rounded-xl border border-white/10 bg-slate-950/35 p-4">
+    <div className="min-w-0 rounded-xl border border-white/10 bg-slate-950/35 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-slate-950/50">
       <div className="flex items-start gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-cyan-300/10 text-cyan-100">
           <Icon size={18} />
@@ -446,10 +478,10 @@ function ProjectEditor({ project, onChange, onRemove }: { project: EditableProje
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-slate-950/35 p-4">
+    <div className="rounded-xl border border-white/10 bg-slate-950/35 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-300/30 hover:bg-slate-950/50">
       <div className="flex items-start justify-between gap-4">
         <p className="font-semibold text-white">{project.name}</p>
-        <button onClick={onRemove} className="text-red-200 hover:text-red-100" aria-label="Hapus project">
+        <button onClick={onRemove} className="rounded-lg p-2 text-red-200 transition hover:bg-red-300/10 hover:text-red-100 active:scale-95" aria-label="Hapus project">
           <Trash2 size={17} />
         </button>
       </div>
@@ -486,10 +518,10 @@ function ProjectEditor({ project, onChange, onRemove }: { project: EditableProje
 
 function AgentEditor({ agent, onChange, onRemove }: { agent: EditableAgent; onChange: (agent: EditableAgent) => void; onRemove: () => void }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-slate-950/35 p-4">
+    <div className="rounded-xl border border-white/10 bg-slate-950/35 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-emerald-300/30 hover:bg-slate-950/50">
       <div className="flex items-start justify-between gap-4">
         <p className="font-semibold text-white">{agent.name}</p>
-        <button onClick={onRemove} className="text-red-200 hover:text-red-100" aria-label="Hapus agent">
+        <button onClick={onRemove} className="rounded-lg p-2 text-red-200 transition hover:bg-red-300/10 hover:text-red-100 active:scale-95" aria-label="Hapus agent">
           <Trash2 size={17} />
         </button>
       </div>
@@ -502,5 +534,47 @@ function AgentEditor({ agent, onChange, onRemove }: { agent: EditableAgent; onCh
         <Textarea label="Output EN" value={agent.outputEn || ""} onChange={(value) => onChange({ ...agent, outputEn: value })} />
       </div>
     </div>
+  );
+}
+
+function StatusToast({ status, onClose }: { status: { message: string; type: StatusType } | null; onClose: () => void }) {
+  const palette = {
+    success: {
+      icon: CheckCircle2,
+      className: "border-emerald-300/25 bg-emerald-300/12 text-emerald-50"
+    },
+    error: {
+      icon: XCircle,
+      className: "border-red-300/25 bg-red-300/12 text-red-50"
+    },
+    info: {
+      icon: Info,
+      className: "border-cyan-300/25 bg-cyan-300/12 text-cyan-50"
+    }
+  } satisfies Record<StatusType, { icon: typeof CheckCircle2; className: string }>;
+
+  return (
+    <AnimatePresence>
+      {status ? (
+        <motion.div
+          className="fixed right-4 top-4 z-[120] w-[min(92vw,420px)]"
+          initial={{ opacity: 0, y: -16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -12, scale: 0.98 }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+        >
+          <div className={`flex items-start gap-3 rounded-xl border px-4 py-3 shadow-card backdrop-blur-xl ${palette[status.type].className}`}>
+            {(() => {
+              const Icon = palette[status.type].icon;
+              return <Icon size={18} className="mt-0.5 shrink-0" />;
+            })()}
+            <p className="min-w-0 flex-1 text-sm font-medium leading-6">{status.message}</p>
+            <button onClick={onClose} className="rounded-md px-2 text-lg leading-none opacity-70 transition hover:bg-white/10 hover:opacity-100" aria-label="Tutup notifikasi" type="button">
+              x
+            </button>
+          </div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }

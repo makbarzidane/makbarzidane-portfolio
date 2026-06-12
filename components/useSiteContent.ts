@@ -16,16 +16,34 @@ export function useSiteContent() {
   const [content, setContent] = useState<EditableContent>(defaultCmsContent);
 
   useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
-      if (stored) {
-        const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
-        window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
-        setContent(merged);
+    function loadContent() {
+      try {
+        const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
+        if (stored) {
+          const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
+          window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
+          setContent(merged);
+          return;
+        }
+        setContent(defaultCmsContent);
+      } catch {
+        setContent(defaultCmsContent);
       }
-    } catch {
-      setContent(defaultCmsContent);
     }
+
+    function syncFromStorage(event: StorageEvent) {
+      if (!event.key || event.key === cmsStorageKey || event.key === legacyCmsStorageKey) {
+        loadContent();
+      }
+    }
+
+    loadContent();
+    window.addEventListener("m-akbar-content-updated", loadContent);
+    window.addEventListener("storage", syncFromStorage);
+    return () => {
+      window.removeEventListener("m-akbar-content-updated", loadContent);
+      window.removeEventListener("storage", syncFromStorage);
+    };
   }, []);
 
   return content;
