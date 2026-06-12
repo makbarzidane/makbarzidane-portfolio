@@ -21,7 +21,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 text-sm text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
         <div>
           <p className="font-semibold text-white">M. Akbar Zidane - {t.footer.tagline}</p>
-          <p className="mt-1">Copyright {year}. {t.footer.rights}</p>
+          <p className="mt-1">{t.footer.copyright} {year}. {t.footer.rights}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {links.map((link) => {

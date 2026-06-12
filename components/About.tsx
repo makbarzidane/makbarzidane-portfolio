@@ -5,8 +5,6 @@ import { Reveal } from "@/components/Motion";
 import { SectionTitle } from "@/components/SectionTitle";
 import { useLanguage } from "@/components/useLanguage";
 
-const capabilities = ["Konsep", "Desain UI", "Frontend", "Backend", "Database", "Deployment", "Optimasi SEO Dasar"];
-
 export function About() {
   const { t } = useLanguage();
 
@@ -27,7 +25,7 @@ export function About() {
               {t.about.body}
             </p>
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {capabilities.map((item) => (
+              {t.about.capabilities.map((item) => (
                 <div key={item} className="flex items-center gap-3 rounded-lg bg-white/6 p-3 text-sm font-medium text-slate-200">
                   <CheckCircle2 size={18} className="text-emerald-300" />
                   {item}

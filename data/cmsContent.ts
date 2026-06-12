@@ -46,13 +46,13 @@ export interface EditableContent {
   agents: EditableAgent[];
 }
 
-export const cmsStorageKey = "m-akbar-zidane-cms-content";
+export const cmsStorageKey = "m-akbar-zidane-cms-content-v2";
 export const legacyCmsStorageKey = "zimeira-tech-cms-content";
 
 export const defaultCmsContent: EditableContent = {
   hero: {
     name: "M. Akbar Zidane",
-    role: "Full-Stack Developer & AI Agent Builder",
+    role: "Pengembang Full-Stack & Pembuat Agen AI",
     roleEn: "Full-Stack Developer & AI Agent Builder",
     bio:
       "Mahasiswa Informatika dan developer yang membangun website, sistem digital, dashboard admin, e-commerce, QR ordering, serta workflow AI agent untuk membantu bisnis bekerja lebih cepat.",
@@ -76,7 +76,7 @@ export const defaultCmsContent: EditableContent = {
   projects: [
     {
       name: "M. Akbar Zidane Portfolio",
-      category: "Personal Portfolio Website",
+      category: "Website Portofolio Pribadi",
       categoryEn: "Personal Portfolio Website",
       description:
         "Website portfolio pribadi untuk menampilkan profil, data diri, project pilihan, paket AI agent, CV, kontak, bilingual mode, animasi motion, dan CMS sederhana.",
@@ -91,7 +91,7 @@ export const defaultCmsContent: EditableContent = {
     },
     {
       name: "Zimeira Agent Online",
-      category: "AI Agent Workflow",
+      category: "Workflow Agen AI",
       categoryEn: "AI Agent Workflow",
       description:
         "Aplikasi agent berbasis Streamlit untuk menghasilkan paket layanan lengkap seperti sales script, brief, proposal, presentasi, caption, checklist, catatan teknis, dan reviewer.",
@@ -106,7 +106,7 @@ export const defaultCmsContent: EditableContent = {
     },
     {
       name: "2Z Reklame & Cutting Sticker Company Profile",
-      category: "Company Profile Website",
+      category: "Website Company Profile",
       categoryEn: "Company Profile Website",
       description:
         "Website company profile untuk usaha reklame dan cutting sticker di Pagar Alam. Website ini menampilkan profil usaha, layanan, portfolio, galeri, kontak WhatsApp, dan panel admin untuk mengelola konten.",
@@ -115,13 +115,13 @@ export const defaultCmsContent: EditableContent = {
       stack: ["CodeIgniter 4", "PHP", "MySQL", "Bootstrap", "JavaScript", "cPanel"],
       features: ["Landing page company profile", "CRUD layanan", "CRUD portfolio", "CRUD galeri", "Slider hero dinamis"],
       featuresEn: ["Company profile landing page", "Services CRUD", "Portfolio CRUD", "Gallery CRUD", "Dynamic hero slider"],
-      demoUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
       previewImage: "/portfolio/2z-reklame.png"
     },
     {
       name: "Zimeira Tech Website",
-      category: "Service Landing Page",
+      category: "Landing Page Layanan",
       categoryEn: "Service Landing Page",
       description:
         "Website landing page untuk menampilkan layanan digital seperti pembuatan website, sistem bisnis, dan solusi IT untuk UMKM.",
@@ -130,13 +130,13 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
       features: ["Landing page jasa", "Section layanan", "CTA WhatsApp", "Portfolio preview", "Responsive design"],
       featuresEn: ["Service landing page", "Service sections", "WhatsApp CTA", "Portfolio preview", "Responsive design"],
-      demoUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
       previewImage: "/portfolio/zimeira-tech-website.png"
     },
     {
       name: "E-Commerce Hijab Website",
-      category: "E-Commerce Website",
+      category: "Website E-Commerce",
       categoryEn: "E-Commerce Website",
       description:
         "Website e-commerce bertema hijab untuk menampilkan produk, kategori, harga, keranjang, checkout, dan fitur pendukung toko online.",
@@ -151,7 +151,7 @@ export const defaultCmsContent: EditableContent = {
     },
     {
       name: "Besemah Coffee",
-      category: "UMKM Coffee Website",
+      category: "Website UMKM Kopi",
       categoryEn: "SME Coffee Website",
       description:
         "Website demo untuk brand kopi lokal Pagar Alam yang membantu UMKM kopi terlihat lebih profesional dan mudah menerima pemesanan.",
@@ -160,13 +160,13 @@ export const defaultCmsContent: EditableContent = {
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
       features: ["Landing page kopi", "Menu produk", "Paket promo", "CTA WhatsApp order", "Galeri produk"],
       featuresEn: ["Coffee landing page", "Product menu", "Promo packages", "WhatsApp order CTA", "Product gallery"],
-      demoUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
       previewImage: "/portfolio/besemah-coffee.png"
     },
     {
       name: "Homestay Bukit Dempo",
-      category: "Homestay Landing Page",
+      category: "Landing Page Homestay",
       categoryEn: "Homestay Landing Page",
       description:
         "Website landing page untuk homestay yang menampilkan informasi penginapan, fasilitas, galeri, lokasi, dan pemesanan melalui WhatsApp.",
@@ -175,13 +175,13 @@ export const defaultCmsContent: EditableContent = {
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
       features: ["Informasi homestay", "Galeri kamar", "Fasilitas", "CTA booking WhatsApp", "Lokasi"],
       featuresEn: ["Homestay information", "Room gallery", "Facilities", "WhatsApp booking CTA", "Location"],
-      demoUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
       previewImage: "/portfolio/homestay-bukit-dempo.png"
     },
     {
       name: "QR Ordering System Cafe",
-      category: "Cafe Ordering System",
+      category: "Sistem Pemesanan Cafe",
       categoryEn: "Cafe Ordering System",
       description:
         "Sistem pemesanan makanan dan minuman berbasis QR Code untuk cafe. Pelanggan dapat scan QR dari meja, melihat menu, melakukan pemesanan, dan pesanan masuk ke dashboard admin.",
@@ -190,13 +190,13 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Next.js", "TypeScript", "Tailwind CSS", "API Route"],
       features: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
       featuresEn: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
-      demoUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
       previewImage: "/portfolio/qr-ordering-cafe.png"
     },
     {
       name: "Apex Legends Sentiment Analysis",
-      category: "Data Analyst / AI Project",
+      category: "Proyek Data Analyst / AI",
       categoryEn: "Data Analyst / AI Project",
       description:
         "Project analisis sentimen review game Apex Legends dari platform Steam menggunakan pendekatan machine learning untuk mengetahui opini positif dan negatif dari pemain.",
@@ -205,7 +205,7 @@ export const defaultCmsContent: EditableContent = {
       stack: ["Python", "Pandas", "Naive Bayes", "Data Cleaning", "Sentiment Analysis"],
       features: ["Dataset review Steam", "Preprocessing text", "Klasifikasi sentimen", "Insight bisnis", "Visualisasi hasil"],
       featuresEn: ["Steam review dataset", "Text preprocessing", "Sentiment classification", "Business insight", "Result visualization"],
-      demoUrl: "https://github.com/makbarzidane/Dashboard-Review-Game-Apex-Legends-Steam",
+      demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/analisis_sentimen_revew_apex_legends_dashboard",
       previewImage: "/portfolio/apex-sentiment.png"
     }

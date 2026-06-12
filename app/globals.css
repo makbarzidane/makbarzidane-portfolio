@@ -281,3 +281,52 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .cv-print {
+    max-width: none !important;
+  }
+
+  .cv-print section,
+  .cv-print div,
+  .cv-print a,
+  .cv-print span,
+  .cv-print p,
+  .cv-print h1,
+  .cv-print h2 {
+    box-shadow: none !important;
+    color: #0f172a !important;
+  }
+
+  .cv-print section {
+    break-inside: avoid;
+    background: #ffffff !important;
+    border: 1px solid #dbe3ef !important;
+    margin-top: 14px !important;
+    padding: 20px !important;
+  }
+
+  .cv-print a,
+  .cv-print span {
+    background: #f8fafc !important;
+    border-color: #dbe3ef !important;
+    text-decoration: none !important;
+  }
+
+  .cv-print p {
+    color: #334155 !important;
+  }
+}

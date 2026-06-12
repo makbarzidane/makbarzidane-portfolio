@@ -46,7 +46,7 @@ export function Preloader() {
               </div>
               <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                 <Bot size={15} />
-                loading.portfolio
+                {t.preloader.loading}
               </div>
             </div>
 

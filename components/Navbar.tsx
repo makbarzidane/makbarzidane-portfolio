@@ -63,7 +63,7 @@ export function Navbar() {
           type="button"
           className="grid h-10 w-10 place-items-center rounded-lg border border-white/12 text-white lg:hidden"
           onClick={() => setOpen((value) => !value)}
-          aria-label="Buka menu"
+          aria-label={t.nav.openMenu}
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>

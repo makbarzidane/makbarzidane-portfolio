@@ -9,66 +9,87 @@ const languageStorageKey = "m-akbar-zidane-language";
 export const copy = {
   id: {
     nav: {
-      home: "Home",
-      portfolio: "Portfolio",
+      home: "Beranda",
+      portfolio: "Portofolio",
       profile: "Data Diri",
-      agent: "AI Agent",
+      agent: "Agen AI",
       contact: "Kontak",
-      viewWork: "Lihat Karya"
+      viewWork: "Lihat Karya",
+      openMenu: "Buka menu"
     },
     hero: {
-      badge: "Portfolio Developer",
-      portfolio: "Lihat Portfolio",
-      cv: "Download CV",
+      badge: "Portofolio Pengembang",
+      portfolio: "Lihat Portofolio",
+      cv: "Unduh CV",
       location: "Lokasi",
       status: "Status",
-      project: "Project",
-      photo: "Foto portfolio",
-      photoHint: "Update lewat /admin",
+      project: "Proyek",
+      photo: "Foto portofolio",
+      photoHint: "Perbarui lewat /admin",
       data: "Data Diri",
-      selected: "Selected Result",
-      available: "Available for project"
+      selected: "Hasil Pilihan",
+      available: "Siap untuk proyek"
     },
     portfolio: {
-      eyebrow: "Portfolio",
-      title: "Hasil project yang bisa langsung dilihat.",
-      description: "Preview memakai screenshot dari link live project. Ringkas, visual, dan fokus ke hasil.",
-      selected: "Selected Work",
-      live: "Live",
+      eyebrow: "Portofolio",
+      title: "Hasil proyek yang bisa langsung dilihat.",
+      description: "Preview memakai screenshot tampilan website atau mockup hasil proyek. Ringkas, visual, dan fokus ke hasil.",
+      selected: "Karya Pilihan",
+      live: "Lihat Website",
       details: "Detail",
       github: "GitHub"
     },
     agent: {
-      eyebrow: "AI & Automation Project",
+      eyebrow: "Proyek AI & Otomasi",
       title: "Generate Paket Layanan Lengkap",
       description:
-        "Agent untuk membantu sales, brief, proposal, materi presentasi, caption, checklist, prompt teknis, sampai review akhir.",
-      output: "Output"
+        "Agen untuk membantu sales, brief, proposal, materi presentasi, caption, checklist, prompt teknis, sampai review akhir.",
+      output: "Hasil"
     },
     about: {
       eyebrow: "Tentang Saya",
-      title: "Developer profile.",
+      title: "Profil developer.",
       description:
-        "Mahasiswa Informatika yang fokus membangun website, sistem digital, dan AI workflow untuk kebutuhan portfolio bisnis dan UMKM.",
+        "Mahasiswa Informatika yang fokus membangun website, sistem digital, dan workflow AI untuk kebutuhan portofolio bisnis dan UMKM.",
       body:
-        "Saya biasa mengerjakan alur dari konsep, UI, frontend, backend, database, deployment, hingga optimasi dasar. Fokus saya adalah hasil yang rapi, cepat, dan mudah dikembangkan."
+        "Saya biasa mengerjakan alur dari konsep, desain UI, frontend, backend, database, deployment, hingga optimasi dasar. Fokus saya adalah hasil yang rapi, cepat, dan mudah dikembangkan.",
+      capabilities: ["Konsep", "Desain UI", "Frontend", "Backend", "Database", "Deployment", "Optimasi SEO Dasar"]
     },
     contact: {
-      title: "Punya Project Website, Sistem, atau AI Workflow?",
+      title: "Punya Proyek Website, Sistem, atau Workflow AI?",
       description:
-        "Konsultasikan ide project Anda, mulai dari landing page portfolio bisnis, QR ordering, e-commerce, dashboard admin, sampai automation workflow.",
+        "Konsultasikan ide proyek Anda, mulai dari landing page portofolio bisnis, QR ordering, e-commerce, dashboard admin, sampai workflow otomasi.",
       whatsapp: "Hubungi via WhatsApp",
       github: "Lihat GitHub",
-      portfolio: "Lihat Portfolio"
+      portfolio: "Lihat Portofolio"
     },
     footer: {
-      tagline: "Personal Portfolio - Web Development & AI Agent",
-      rights: "All rights reserved."
+      tagline: "Portofolio Pribadi - Pengembangan Web & Agen AI",
+      copyright: "Hak cipta",
+      rights: "Seluruh hak cipta dilindungi."
     },
     preloader: {
-      label: "M. Akbar Zidane Portfolio",
-      title: "Preparing portfolio workspace",
-      steps: ["Profile", "Portfolio", "AI Agent"]
+      label: "Portofolio M. Akbar Zidane",
+      title: "Menyiapkan ruang portofolio",
+      loading: "memuat.portofolio",
+      steps: ["Profil", "Portofolio", "Agen AI"]
+    },
+    cv: {
+      back: "Kembali ke Portofolio",
+      eyebrow: "Curriculum Vitae",
+      download: "Unduh CV PDF",
+      printHint: "Gunakan dialog cetak untuk menyimpan sebagai PDF.",
+      contact: "Kontak",
+      focus: "Fokus Keahlian",
+      stack: "Stack Teknologi",
+      selected: "Portofolio Pilihan",
+      agents: "Paket Agen AI",
+      highlights: [
+        "Pengembangan web full-stack",
+        "Dashboard admin dan CMS sederhana",
+        "E-commerce, QR ordering, dan landing page UMKM",
+        "Workflow agen AI untuk sales, brief, proposal, caption, checklist, dan review"
+      ]
     }
   },
   en: {
@@ -78,7 +99,8 @@ export const copy = {
       profile: "Profile",
       agent: "AI Agent",
       contact: "Contact",
-      viewWork: "View Work"
+      viewWork: "View Work",
+      openMenu: "Open menu"
     },
     hero: {
       badge: "Developer Portfolio",
@@ -115,7 +137,8 @@ export const copy = {
       description:
         "Informatics student focused on building websites, digital systems, and AI workflows for business portfolios and SMEs.",
       body:
-        "I usually work from concept, UI, frontend, backend, database, deployment, to basic optimization. My focus is clean, fast, and scalable output."
+        "I usually work from concept, UI design, frontend, backend, database, deployment, to basic optimization. My focus is clean, fast, and scalable output.",
+      capabilities: ["Concept", "UI Design", "Frontend", "Backend", "Database", "Deployment", "Basic SEO Optimization"]
     },
     contact: {
       title: "Have a website, system, or AI workflow idea?",
@@ -127,12 +150,31 @@ export const copy = {
     },
     footer: {
       tagline: "Personal Portfolio - Web Development & AI Agent",
+      copyright: "Copyright",
       rights: "All rights reserved."
     },
     preloader: {
       label: "M. Akbar Zidane Portfolio",
       title: "Preparing portfolio workspace",
+      loading: "loading.portfolio",
       steps: ["Profile", "Portfolio", "AI Agent"]
+    },
+    cv: {
+      back: "Back to Portfolio",
+      eyebrow: "Curriculum Vitae",
+      download: "Download CV PDF",
+      printHint: "Use the print dialog to save as PDF.",
+      contact: "Contact",
+      focus: "Skill Focus",
+      stack: "Technology Stack",
+      selected: "Selected Portfolio",
+      agents: "AI Agent Package",
+      highlights: [
+        "Full-stack web development",
+        "Admin dashboard and simple CMS",
+        "E-commerce, QR ordering, and SME landing pages",
+        "AI agent workflows for sales, briefs, proposals, captions, checklists, and review"
+      ]
     }
   }
 };
