@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cmsAuthCookie, createCmsSessionValue } from "@/lib/cmsAuth";
 
 export async function POST(request: Request) {
   const cmsUsername = process.env.CMS_USERNAME;
@@ -16,7 +17,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Username atau password salah." }, { status: 401 });
     }
 
-    return NextResponse.json({ ok: true });
+    const response = NextResponse.json({ ok: true });
+    response.cookies.set(cmsAuthCookie, createCmsSessionValue(body.username || cmsUsername), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/"
+    });
+
+    return response;
   } catch {
     return NextResponse.json({ message: "Request login tidak valid." }, { status: 400 });
   }

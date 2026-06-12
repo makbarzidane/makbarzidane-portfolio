@@ -16,8 +16,18 @@ export function useSiteContent() {
   const [content, setContent] = useState<EditableContent>(defaultCmsContent);
 
   useEffect(() => {
-    function loadContent() {
+    async function loadContent() {
       try {
+        const response = await fetch("/api/cms-content", { cache: "no-store" });
+        if (response.ok) {
+          const result = (await response.json()) as { content?: Partial<EditableContent> };
+          if (result.content) {
+            const merged = mergeContent(result.content);
+            setContent(merged);
+            return;
+          }
+        }
+
         const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
         if (stored) {
           const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
@@ -33,15 +43,19 @@ export function useSiteContent() {
 
     function syncFromStorage(event: StorageEvent) {
       if (!event.key || event.key === cmsStorageKey || event.key === legacyCmsStorageKey) {
-        loadContent();
+        void loadContent();
       }
     }
 
-    loadContent();
-    window.addEventListener("m-akbar-content-updated", loadContent);
+    function syncFromCmsUpdate() {
+      void loadContent();
+    }
+
+    void loadContent();
+    window.addEventListener("m-akbar-content-updated", syncFromCmsUpdate);
     window.addEventListener("storage", syncFromStorage);
     return () => {
-      window.removeEventListener("m-akbar-content-updated", loadContent);
+      window.removeEventListener("m-akbar-content-updated", syncFromCmsUpdate);
       window.removeEventListener("storage", syncFromStorage);
     };
   }, []);

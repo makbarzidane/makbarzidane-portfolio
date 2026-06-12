@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, Download, FileText, ImageIcon, Info, Lock, LogIn, LogOut, Plus, RotateCcw, Save, Trash2, Upload, XCircle } from "lucide-react";
 import { cmsStorageKey, defaultCmsContent, legacyCmsStorageKey, type EditableAgent, type EditableContent, type EditableProject } from "@/data/cmsContent";
-import { isBrowserAssetRef, storeBrowserFile, storeDataUrlAsBrowserAsset, useBrowserAssetUrl } from "@/components/browserAssets";
+import { getBrowserAsset, isBrowserAssetRef, useBrowserAssetUrl } from "@/components/browserAssets";
 
 const cmsSessionKey = "m-akbar-zidane-cms-session";
 
@@ -66,12 +66,33 @@ export default function AdminPage() {
 
   useEffect(() => {
     setAuthenticated(window.localStorage.getItem(cmsSessionKey) === "true");
-    const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
-    if (stored) {
-      const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
-      window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
-      setContent(merged);
+
+    async function loadInitialContent() {
+      try {
+        const response = await fetch("/api/cms-content", { cache: "no-store" });
+        const result = (await response.json()) as { content?: Partial<EditableContent>; source?: string; message?: string };
+        if (result.content) {
+          const merged = mergeContent(result.content);
+          setContent(merged);
+          window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
+          if (result.source === "default" && result.message) {
+            notify("Konten online belum aktif. Simpan membutuhkan CMS_GITHUB_TOKEN di Vercel.", "info");
+          }
+          return;
+        }
+      } catch {
+        notify("Gagal mengambil konten online. Memakai cache browser sementara.", "error");
+      }
+
+      const stored = window.localStorage.getItem(cmsStorageKey) || window.localStorage.getItem(legacyCmsStorageKey);
+      if (stored) {
+        const merged = mergeContent(JSON.parse(stored) as Partial<EditableContent>);
+        window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
+        setContent(merged);
+      }
     }
+
+    void loadInitialContent();
   }, []);
 
   useEffect(() => {
@@ -86,16 +107,44 @@ export default function AdminPage() {
     setStatus({ message, type });
   }
 
-  async function migrateUploadedDataUrls(nextContent: EditableContent) {
-    const migrateValue = async (value: string, name: string) => {
-      if (!value.startsWith("data:") || isBrowserAssetRef(value)) return value;
-      return storeDataUrlAsBrowserAsset(value, name);
+  async function uploadBlobOnline(blob: Blob, name: string) {
+    const formData = new FormData();
+    formData.append("file", blob, name);
+
+    const response = await fetch("/api/cms-assets", {
+      method: "POST",
+      body: formData
+    });
+
+    const result = (await response.json().catch(() => null)) as { url?: string; message?: string } | null;
+    if (!response.ok || !result?.url) {
+      throw new Error(result?.message || "Gagal upload file online.");
+    }
+
+    return result.url;
+  }
+
+  async function normalizeUploadedAssets(nextContent: EditableContent) {
+    const normalizeValue = async (value: string, name: string) => {
+      if (value.startsWith("data:")) {
+        const response = await fetch(value);
+        const blob = await response.blob();
+        return uploadBlobOnline(blob, name);
+      }
+
+      if (isBrowserAssetRef(value)) {
+        const asset = await getBrowserAsset(value);
+        if (!asset) throw new Error("File lokal tidak ditemukan. Upload ulang file tersebut.");
+        return uploadBlobOnline(asset.blob, asset.name || name);
+      }
+
+      return value;
     };
 
     const projects = await Promise.all(
       nextContent.projects.map(async (project, index) => ({
         ...project,
-        previewImage: project.previewImage ? await migrateValue(project.previewImage, `project-preview-${index}.png`) : project.previewImage
+        previewImage: project.previewImage ? await normalizeValue(project.previewImage, `project-preview-${index}.png`) : project.previewImage
       }))
     );
 
@@ -103,8 +152,8 @@ export default function AdminPage() {
       ...nextContent,
       hero: {
         ...nextContent.hero,
-        photoUrl: nextContent.hero.photoUrl ? await migrateValue(nextContent.hero.photoUrl, "profile-photo") : "",
-        cvUrl: nextContent.hero.cvUrl ? await migrateValue(nextContent.hero.cvUrl, "cv-file") : "/cv"
+        photoUrl: nextContent.hero.photoUrl ? await normalizeValue(nextContent.hero.photoUrl, "profile-photo") : "",
+        cvUrl: nextContent.hero.cvUrl ? await normalizeValue(nextContent.hero.cvUrl, "cv-file") : "/cv"
       },
       projects
     };
@@ -113,21 +162,27 @@ export default function AdminPage() {
   async function saveContent() {
     setSaving(true);
     try {
-      const normalizedContent = await migrateUploadedDataUrls(content);
+      const normalizedContent = await normalizeUploadedAssets(content);
       const payload = JSON.stringify(normalizedContent);
-      window.localStorage.setItem(cmsStorageKey, payload);
-      const saved = window.localStorage.getItem(cmsStorageKey);
+      const response = await fetch("/api/cms-content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: normalizedContent })
+      });
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
 
-      if (saved !== payload) {
-        throw new Error("Data tersimpan tidak sesuai.");
+      if (!response.ok) {
+        throw new Error(result?.message || "Gagal menyimpan konten online.");
       }
 
+      window.localStorage.setItem(cmsStorageKey, payload);
       setContent(normalizedContent);
       window.dispatchEvent(new Event("m-akbar-content-updated"));
-      notify("Perubahan berhasil disimpan.");
+      notify("Perubahan berhasil disimpan online.");
     } catch (error) {
       const isQuotaError = error instanceof DOMException && (error.name === "QuotaExceededError" || error.name === "NS_ERROR_DOM_QUOTA_REACHED");
-      notify(isQuotaError ? "Storage browser penuh. Coba hapus file lama atau gunakan file yang lebih kecil." : "Gagal menyimpan perubahan. Coba ulangi atau export JSON sebagai backup.", "error");
+      const message = error instanceof Error ? error.message : "Gagal menyimpan perubahan online.";
+      notify(isQuotaError ? "Storage browser penuh. Coba hapus cache lama atau gunakan file yang lebih kecil." : message, "error");
     } finally {
       window.setTimeout(() => setSaving(false), 450);
     }
@@ -160,6 +215,7 @@ export default function AdminPage() {
 
   function logout() {
     window.localStorage.removeItem(cmsSessionKey);
+    void fetch("/api/cms-logout", { method: "POST" });
     setAuthenticated(false);
     setPassword("");
     notify("Logout berhasil.");
@@ -202,14 +258,14 @@ export default function AdminPage() {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
-      const value = await storeBrowserFile(file);
+      const value = await uploadBlobOnline(file, file.name);
       setContent((current) => ({
         ...current,
         hero: { ...current.hero, photoUrl: value }
       }));
-      notify("Foto berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
-    } catch {
-      notify("Gagal memuat foto. Coba file lain atau ukuran lebih kecil.", "error");
+      notify("Foto berhasil diupload online. Klik Simpan untuk menerapkan.", "info");
+    } catch (error) {
+      notify(error instanceof Error ? error.message : "Gagal upload foto online.", "error");
     } finally {
       event.target.value = "";
     }
@@ -219,14 +275,14 @@ export default function AdminPage() {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
-      const value = await storeBrowserFile(file);
+      const value = await uploadBlobOnline(file, file.name);
       setContent((current) => ({
         ...current,
         hero: { ...current.hero, cvUrl: value }
       }));
-      notify("File CV berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
-    } catch {
-      notify("Gagal memuat CV. Coba file lain atau ukuran lebih kecil.", "error");
+      notify("File CV berhasil diupload online. Klik Simpan untuk menerapkan.", "info");
+    } catch (error) {
+      notify(error instanceof Error ? error.message : "Gagal upload CV online.", "error");
     } finally {
       event.target.value = "";
     }
@@ -281,7 +337,7 @@ export default function AdminPage() {
             </Link>
             <h1 className="mt-4 text-3xl font-semibold text-white">CMS Portfolio M. Akbar Zidane</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-              Edit bagian penting website dari browser. Konten tersimpan di browser, sedangkan file upload disimpan terpisah agar tidak memenuhi localStorage.
+              Edit bagian penting website dari browser. Setelah disimpan, konten dan file upload tersimpan online agar terbaca dari laptop maupun HP.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -379,6 +435,7 @@ export default function AdminPage() {
                     setContent({ ...content, projects });
                   }}
                   notify={notify}
+                  uploadBlobOnline={uploadBlobOnline}
                   onRemove={() => setContent({ ...content, projects: content.projects.filter((_, itemIndex) => itemIndex !== index) })}
                 />
               ))}
@@ -505,22 +562,24 @@ function ProjectEditor({
   project,
   onChange,
   onRemove,
-  notify
+  notify,
+  uploadBlobOnline
 }: {
   project: EditableProject;
   onChange: (project: EditableProject) => void;
   onRemove: () => void;
   notify: (message: string, type?: StatusType) => void;
+  uploadBlobOnline: (blob: Blob, name: string) => Promise<string>;
 }) {
   async function uploadPreview(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
     try {
-      const value = await storeBrowserFile(file);
+      const value = await uploadBlobOnline(file, file.name);
       onChange({ ...project, previewImage: value });
-      notify("Preview project berhasil dimuat. Klik Simpan untuk menerapkan.", "info");
-    } catch {
-      notify("Gagal memuat preview project. Coba file lain atau ukuran lebih kecil.", "error");
+      notify("Preview project berhasil diupload online. Klik Simpan untuk menerapkan.", "info");
+    } catch (error) {
+      notify(error instanceof Error ? error.message : "Gagal upload preview project online.", "error");
     } finally {
       event.target.value = "";
     }

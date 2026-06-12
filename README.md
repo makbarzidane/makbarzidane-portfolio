@@ -22,7 +22,7 @@ https://github.com/makbarzidane/makbarzidane-portfolio
 - Toggle bahasa Indonesia dan Inggris.
 - Halaman CV internal di `/cv`.
 - CMS sederhana di `/admin` dengan login via API server.
-- Data default bisa diedit dari source atau dari CMS browser.
+- CMS online berbasis GitHub Contents API agar perubahan terbaca dari laptop dan HP.
 
 ## Tech Stack
 
@@ -61,6 +61,7 @@ Buat environment variable berikut di local atau Vercel:
 ```text
 CMS_USERNAME
 CMS_PASSWORD
+CMS_GITHUB_TOKEN
 ```
 
 Untuk local development, buat file `.env.local`:
@@ -68,7 +69,10 @@ Untuk local development, buat file `.env.local`:
 ```text
 CMS_USERNAME=isi_username
 CMS_PASSWORD=isi_password
+CMS_GITHUB_TOKEN=isi_fine_grained_github_token
 ```
+
+`CMS_GITHUB_TOKEN` harus memiliki akses read/write **Contents** ke repository `makbarzidane/makbarzidane-portfolio`. Token ini dipakai server untuk menyimpan `data/remoteContent.json` dan file upload CMS ke `public/cms-uploads`.
 
 ## Mengedit Konten
 
@@ -86,7 +90,7 @@ Dari CMS `/admin`, kamu bisa mengedit:
 - Paket AI agent.
 - Export/import JSON.
 
-Catatan: CMS sederhana menyimpan perubahan di `localStorage` browser. Untuk update permanen yang ikut terbaca semua pengunjung, ubah data default di `data/cmsContent.ts` atau integrasikan database/headless CMS.
+Catatan: perubahan CMS tersimpan online setelah `CMS_GITHUB_TOKEN` terpasang di Vercel. Tanpa token tersebut, API akan menampilkan pesan konfigurasi dan tidak menyimpan perubahan sebagai data online.
 
 ## Portfolio Default
 
