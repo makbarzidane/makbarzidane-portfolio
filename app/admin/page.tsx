@@ -20,6 +20,7 @@ const emptyProject: EditableProject = {
 
 const emptyAgent: EditableAgent = {
   name: "Agent Baru",
+  nameEn: "New Agent",
   description: "Deskripsi fungsi agent.",
   output: "Output yang dihasilkan agent."
 };
@@ -494,6 +495,7 @@ function AgentEditor({ agent, onChange, onRemove }: { agent: EditableAgent; onCh
       </div>
       <div className="mt-4 grid gap-3">
         <Field label="Nama Agent" value={agent.name} onChange={(value) => onChange({ ...agent, name: value })} />
+        <Field label="Name EN" value={agent.nameEn || ""} onChange={(value) => onChange({ ...agent, nameEn: value })} />
         <Textarea label="Deskripsi" value={agent.description} onChange={(value) => onChange({ ...agent, description: value })} />
         <Textarea label="Description EN" value={agent.descriptionEn || ""} onChange={(value) => onChange({ ...agent, descriptionEn: value })} />
         <Textarea label="Output" value={agent.output} onChange={(value) => onChange({ ...agent, output: value })} />

@@ -32,7 +32,7 @@ export function AIProjects() {
                   <span className="grid h-12 w-12 place-items-center rounded-lg bg-emerald-300/12 text-emerald-200">
                     <Icon size={22} />
                   </span>
-                  <h3 className="mt-5 text-xl font-semibold text-white">{agent.name}</h3>
+                  <h3 className="mt-5 text-xl font-semibold text-white">{language === "en" ? agent.nameEn || agent.name : agent.name}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-300">{language === "en" ? agent.descriptionEn || agent.description : agent.description}</p>
                   <div className="mt-5 rounded-lg border border-cyan-300/15 bg-cyan-300/8 px-3 py-3">
                     <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-200">{t.agent.output}</p>

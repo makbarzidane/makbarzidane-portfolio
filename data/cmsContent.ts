@@ -14,6 +14,7 @@ export interface EditableProject {
 
 export interface EditableAgent {
   name: string;
+  nameEn?: string;
   description: string;
   descriptionEn?: string;
   output: string;
@@ -46,7 +47,7 @@ export interface EditableContent {
   agents: EditableAgent[];
 }
 
-export const cmsStorageKey = "m-akbar-zidane-cms-content-v2";
+export const cmsStorageKey = "m-akbar-zidane-cms-content-v3";
 export const legacyCmsStorageKey = "zimeira-tech-cms-content";
 
 export const defaultCmsContent: EditableContent = {
@@ -213,20 +214,23 @@ export const defaultCmsContent: EditableContent = {
   agents: [
     {
       name: "Sales Agent",
+      nameEn: "Sales Agent",
       description: "Membantu menyusun angle penjualan, benefit layanan, dan arah komunikasi untuk calon client.",
       descriptionEn: "Helps structure sales angles, service benefits, and communication direction for potential clients.",
       output: "Script sales, value proposition, dan poin follow-up."
       ,outputEn: "Sales script, value proposition, and follow-up points."
     },
     {
-      name: "Brief Agent",
+      name: "Agen Brief",
+      nameEn: "Brief Agent",
       description: "Mengubah kebutuhan mentah client menjadi brief project yang lebih jelas dan siap dikerjakan.",
       descriptionEn: "Turns raw client needs into a clearer project brief that is ready to execute.",
       output: "Ringkasan kebutuhan, target user, fitur, dan scope."
       ,outputEn: "Needs summary, target users, features, and scope."
     },
     {
-      name: "Penawaran/Proposal Agent",
+      name: "Agen Penawaran/Proposal",
+      nameEn: "Offer/Proposal Agent",
       description: "Menyusun penawaran layanan yang rapi berdasarkan kebutuhan, scope, dan paket pekerjaan.",
       descriptionEn: "Creates a structured service offer based on needs, scope, and work packages.",
       output: "Draft penawaran, estimasi pekerjaan, dan struktur paket."
@@ -234,6 +238,7 @@ export const defaultCmsContent: EditableContent = {
     },
     {
       name: "Proposal Resmi",
+      nameEn: "Formal Proposal",
       description: "Membuat proposal formal untuk kebutuhan presentasi ke client atau pihak bisnis.",
       descriptionEn: "Creates formal proposals for client or business presentations.",
       output: "Dokumen proposal siap rapikan."
@@ -241,34 +246,39 @@ export const defaultCmsContent: EditableContent = {
     },
     {
       name: "Presentasi PPTX",
+      nameEn: "PPTX Presentation",
       description: "Membantu menyusun struktur slide presentasi untuk menjelaskan solusi, timeline, dan harga.",
       descriptionEn: "Helps structure presentation slides to explain solution, timeline, and pricing.",
       output: "Outline slide dan narasi presentasi."
       ,outputEn: "Slide outline and presentation narrative."
     },
     {
-      name: "Caption Agent",
+      name: "Agen Caption",
+      nameEn: "Caption Agent",
       description: "Membuat caption promosi untuk social media, produk, jasa, dan campaign UMKM.",
       descriptionEn: "Creates promotional captions for social media, products, services, and SME campaigns.",
       output: "Caption, hook, CTA, dan variasi gaya bahasa."
       ,outputEn: "Captions, hooks, CTAs, and tone variations."
     },
     {
-      name: "Checklist Agent",
+      name: "Agen Checklist",
+      nameEn: "Checklist Agent",
       description: "Membuat checklist eksekusi agar project, konten, atau campaign tidak melewatkan hal penting.",
       descriptionEn: "Creates execution checklists so projects, content, or campaigns do not miss important steps.",
       output: "Checklist tahap kerja dan prioritas."
       ,outputEn: "Workflow checklist and priorities."
     },
     {
-      name: "Codex Prompt / Catatan Teknis Agent",
+      name: "Agen Prompt Codex / Catatan Teknis",
+      nameEn: "Codex Prompt / Technical Notes Agent",
       description: "Menyusun prompt teknis dan catatan implementasi untuk mempercepat kerja dengan AI coding agent.",
       descriptionEn: "Creates technical prompts and implementation notes to speed up work with AI coding agents.",
       output: "Prompt Codex, struktur task, dan catatan teknis."
       ,outputEn: "Codex prompts, task structure, and technical notes."
     },
     {
-      name: "Reviewer Agent",
+      name: "Agen Reviewer",
+      nameEn: "Reviewer Agent",
       description: "Mengecek ulang hasil brief, proposal, caption, atau prompt agar lebih rapi dan konsisten.",
       descriptionEn: "Reviews briefs, proposals, captions, or prompts to make them cleaner and more consistent.",
       output: "Review, revisi, dan rekomendasi perbaikan."

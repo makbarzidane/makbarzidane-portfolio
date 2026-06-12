@@ -24,6 +24,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const demoIsGithub = isGithubUrl(project.demoUrl);
   const showGithub = hasGithubUrl && project.githubUrl !== project.demoUrl;
   const previewSrc = project.previewImage || (hasDemoUrl ? `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1280` : "");
+  const liveHref = hasDemoUrl ? project.demoUrl : previewSrc;
   const stack = project.stack.slice(0, 4);
   const features = project.features.slice(0, 3);
   const { language, t } = useLanguage();
@@ -95,9 +96,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
-          {hasDemoUrl ? (
+          {liveHref ? (
             <a
-              href={project.demoUrl}
+              href={liveHref}
               target="_blank"
               rel="noreferrer"
               className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"

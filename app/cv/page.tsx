@@ -109,7 +109,7 @@ export default function CvPage() {
               const category = language === "en" ? project.categoryEn || project.category : project.category;
 
               return (
-                <a key={project.name} href={project.demoUrl || project.githubUrl} className="rounded-xl border border-white/10 bg-slate-950/35 p-4 transition hover:border-cyan-300/35">
+                <a key={project.name} href={project.demoUrl || project.previewImage || project.githubUrl} className="rounded-xl border border-white/10 bg-slate-950/35 p-4 transition hover:border-cyan-300/35">
                   <p className="text-xs font-medium uppercase tracking-[0.18em] text-cyan-200">{category}</p>
                   <p className="mt-2 font-semibold text-white">{project.name}</p>
                   <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">{description}</p>
@@ -124,7 +124,7 @@ export default function CvPage() {
           <div className="mt-5 flex flex-wrap gap-2">
             {agents.map((agent) => (
               <span key={agent.name} className="rounded-full border border-violet-300/20 bg-violet-300/10 px-3 py-1.5 text-sm text-violet-100">
-                {agent.name}
+                {language === "en" ? agent.nameEn || agent.name : agent.name}
               </span>
             ))}
           </div>
