@@ -136,6 +136,21 @@ export const defaultCmsContent: EditableContent = {
       previewImage: "/portfolio/zimeira-tech-website.png"
     },
     {
+      name: "Setampak Adventure",
+      category: "Website Katalog & Sewa Alat Outdoor",
+      categoryEn: "Outdoor Rental & Catalog Website",
+      description:
+        "Platform penyewaan perlengkapan camping dan outdoor dengan katalog stok alat real-time, pilihan paket sewa rekomendasi, dan alur reservasi instan yang terintegrasi langsung dengan WhatsApp.",
+      descriptionEn:
+        "Camping and outdoor equipment rental platform featuring a real-time tool inventory catalog, recommended rental packages, and an instant booking flow integrated directly with WhatsApp.",
+      stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
+      features: ["Katalog Stok Alat Real-Time", "Paket Sewa Rekomendasi", "Alur Reservasi WhatsApp", "Desain Responsif & Modern", "Optimasi SEO & Performa"],
+      featuresEn: ["Real-Time Equipment Catalog", "Recommended Rental Packages", "WhatsApp Booking Flow", "Modern & Responsive Design", "SEO & Performance Optimization"],
+      demoUrl: "https://setampakadventure.web.id",
+      githubUrl: "https://github.com/makbarzidane/setampak-adventure",
+      previewImage: "/portfolio/setampak-adventure.png"
+    },
+    {
       name: "E-Commerce Hijab Website",
       category: "Website E-Commerce & Toko Online",
       categoryEn: "E-Commerce Website & Online Store",
