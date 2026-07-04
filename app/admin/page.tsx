@@ -162,19 +162,13 @@ export default function AdminPage() {
       }
 
       try {
-        const response = await fetch("/api/cms-content", {
+        const response = await fetch(`/api/cms-content?t=${Date.now()}`, {
           cache: "no-store",
           credentials: "same-origin"
         });
         const result = (await response.json()) as { content?: Partial<EditableContent>; source?: string; message?: string };
         if (result.content) {
           const merged = mergeContent(result.content);
-          if (localDraft && JSON.stringify(localDraft) !== JSON.stringify(merged)) {
-            setContent(localDraft);
-            notify("Draft lokal dari browser ini ditemukan. Klik Simpan untuk menyimpannya online.", "info");
-            return;
-          }
-
           setContent(merged);
           window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
           if (result.source === "default" && result.message) {
@@ -1123,10 +1117,10 @@ function StatusToast({ status, onClose }: { status: { message: string; type: Sta
     <AnimatePresence>
       {status ? (
         <motion.div
-          className="fixed right-4 top-4 z-[120] w-[min(92vw,420px)]"
-          initial={{ opacity: 0, y: -16, scale: 0.96 }}
+          className="fixed bottom-6 right-6 z-[120] w-[min(92vw,420px)]"
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -12, scale: 0.98 }}
+          exit={{ opacity: 0, y: 12, scale: 0.98 }}
           transition={{ duration: 0.22, ease: "easeOut" }}
         >
           <div className={`flex items-start gap-3 rounded-xl border px-4 py-3 shadow-card backdrop-blur-xl ${palette[status.type].className}`}>
