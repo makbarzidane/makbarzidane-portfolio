@@ -77,135 +77,135 @@ export const defaultCmsContent: EditableContent = {
   projects: [
     {
       name: "M. Akbar Zidane Portfolio",
-      category: "Website Portofolio Pribadi",
-      categoryEn: "Personal Portfolio Website",
+      category: "Website & Landing Page Portofolio",
+      categoryEn: "Portfolio Website & Landing Page",
       description:
-        "Website portfolio pribadi untuk menampilkan profil, data diri, project pilihan, paket AI agent, CV, kontak, bilingual mode, animasi motion, dan CMS sederhana.",
+        "Website landing page dan portofolio pribadi untuk menampilkan profil profesional, proyek pilihan, katalog layanan AI Agent, serta dilengkapi panel CMS dengan integrasi database cloud.",
       descriptionEn:
-        "Personal portfolio website for profile, selected projects, AI agent packages, CV, contacts, bilingual mode, motion animation, and a simple CMS.",
-      stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel"],
-      features: ["Hero profile visual", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
-      featuresEn: ["Visual profile hero", "Portfolio preview", "ID/EN language switcher", "CMS login", "Vercel deployment"],
+        "Personal portfolio website and landing page presenting professional profile, selected projects, AI Agent service catalog, and an integrated cloud-database CMS panel.",
+      stack: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Vercel Blob"],
+      features: ["Landing Page Eksklusif", "Katalog Proyek Portofolio", "ID/EN Language Switcher", "Panel Admin CMS", "Cloud Blob Database Sync"],
+      featuresEn: ["Exclusive Landing Page", "Portfolio Project Catalog", "ID/EN Language Switcher", "CMS Admin Panel", "Cloud Blob Database Sync"],
       demoUrl: "https://m-akbar-zidane-portfolio.vercel.app",
       githubUrl: "https://github.com/makbarzidane/makbarzidane-portfolio",
       previewImage: "/portfolio/m-akbar-zidane-portfolio.png"
     },
     {
       name: "Zimeira Agent Online",
-      category: "Workflow Agen AI",
-      categoryEn: "AI Agent Workflow",
+      category: "Aplikasi Web & Workflow AI",
+      categoryEn: "Web Application & AI Workflow",
       description:
-        "Aplikasi agent berbasis Streamlit untuk menghasilkan paket layanan lengkap seperti sales script, brief, proposal, presentasi, caption, checklist, catatan teknis, dan reviewer.",
+        "Aplikasi web interaktif berbasis AI untuk memproses kebutuhan bisnis dan menghasilkan paket layanan lengkap, mulai dari sales script, project brief, proposal, presentasi, hingga catatan teknis.",
       descriptionEn:
-        "Streamlit-based agent app for generating complete service packages such as sales scripts, briefs, proposals, presentations, captions, checklists, technical notes, and review output.",
+        "Interactive AI-powered web application designed to process business needs and generate complete service packages, including sales scripts, project briefs, proposals, presentations, and technical notes.",
       stack: ["Python", "Streamlit", "Prompt Engineering", "AI Workflow"],
-      features: ["Generate paket layanan", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
-      featuresEn: ["Service package generator", "Sales Agent", "Brief Agent", "Proposal Agent", "Reviewer Agent"],
+      features: ["Generator Paket Layanan AI", "Sales & Brief Agent", "Proposal & PPTX Generator", "Reviewer & Codex Assistant", "Ekspor Output Otomatis"],
+      featuresEn: ["AI Service Package Generator", "Sales & Brief Agent", "Proposal & PPTX Generator", "Reviewer & Codex Assistant", "Automated Output Export"],
       demoUrl: "https://zimeira-agent-online.streamlit.app/",
       githubUrl: "https://github.com/makbarzidane/zimeira-agent-online",
       previewImage: "/portfolio/zimeira-agent-online.png"
     },
     {
       name: "2Z Reklame & Cutting Sticker Company Profile",
-      category: "Website Company Profile",
-      categoryEn: "Company Profile Website",
+      category: "Website Company Profile & Sistem Admin",
+      categoryEn: "Company Profile Website & Admin System",
       description:
-        "Website company profile untuk usaha reklame dan cutting sticker di Pagar Alam. Website ini menampilkan profil usaha, layanan, portfolio, galeri, kontak WhatsApp, dan panel admin untuk mengelola konten.",
+        "Website company profile dinamis untuk bisnis reklame dan cutting sticker di Pagar Alam. Dilengkapi dengan panel admin (CRUD) untuk mengelola katalog layanan, portofolio karya, galeri, dan slider promo secara real-time.",
       descriptionEn:
-        "Company profile website for an advertising and cutting sticker business in Pagar Alam, featuring business profile, services, portfolio, gallery, WhatsApp contact, and admin panel.",
+        "Dynamic company profile website for an advertising and cutting sticker business in Pagar Alam. Features an integrated admin panel (CRUD) to manage services, portfolios, galleries, and promotional sliders in real-time.",
       stack: ["CodeIgniter 4", "PHP", "MySQL", "Bootstrap", "JavaScript", "cPanel"],
-      features: ["Landing page company profile", "CRUD layanan", "CRUD portfolio", "CRUD galeri", "Slider hero dinamis"],
-      featuresEn: ["Company profile landing page", "Services CRUD", "Portfolio CRUD", "Gallery CRUD", "Dynamic hero slider"],
+      features: ["Profil Perusahaan Dinamis", "Panel Admin (CRUD Layanan & Portofolio)", "Manajemen Galeri & Slider", "Integrasi Kontak WhatsApp", "Database MySQL & cPanel"],
+      featuresEn: ["Dynamic Company Profile", "Admin Panel (Services & Portfolio CRUD)", "Gallery & Slider Management", "WhatsApp Contact Integration", "MySQL Database & cPanel"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/PemrogramanWeb_A2_M.Akbar-Zidane",
       previewImage: "/portfolio/2z-reklame.png"
     },
     {
       name: "Zimeira Tech Website",
-      category: "Landing Page Layanan",
-      categoryEn: "Service Landing Page",
+      category: "Website Portal Layanan Digital",
+      categoryEn: "Digital Services Portal Website",
       description:
-        "Website landing page untuk menampilkan layanan digital seperti pembuatan website, sistem bisnis, dan solusi IT untuk UMKM.",
+        "Website portal layanan digital untuk menampilkan solusi teknologi, pembuatan sistem bisnis, serta konsultasi IT bagi UMKM dan perusahaan, dengan alur interaksi klien yang terstruktur.",
       descriptionEn:
-        "Landing page website to present digital services such as website development, business systems, and IT solutions for SMEs.",
+        "Digital services portal website presenting technology solutions, business system development, and IT consulting for SMEs and enterprises, featuring structured client interaction flows.",
       stack: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
-      features: ["Landing page jasa", "Section layanan", "CTA WhatsApp", "Portfolio preview", "Responsive design"],
-      featuresEn: ["Service landing page", "Service sections", "WhatsApp CTA", "Portfolio preview", "Responsive design"],
+      features: ["Portal Katalog Layanan", "Showcase Solusi Bisnis", "Alur Konsultasi WhatsApp", "Desain Responsif & Modern", "Optimasi SEO & Performa"],
+      featuresEn: ["Service Catalog Portal", "Business Solution Showcase", "WhatsApp Consultation Flow", "Modern & Responsive Design", "SEO & Performance Optimization"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/zimeira-tech-website-portfolio",
       previewImage: "/portfolio/zimeira-tech-website.png"
     },
     {
       name: "E-Commerce Hijab Website",
-      category: "Website E-Commerce",
-      categoryEn: "E-Commerce Website",
+      category: "Website E-Commerce & Toko Online",
+      categoryEn: "E-Commerce Website & Online Store",
       description:
-        "Website e-commerce bertema hijab untuk menampilkan produk, kategori, harga, keranjang, checkout, dan fitur pendukung toko online.",
+        "Website toko online bergaya modern untuk katalog produk hijab dan fashion muslim. Menyediakan fitur navigasi kategori, detail produk, keranjang belanja (cart), dan alur checkout yang mulus.",
       descriptionEn:
-        "Hijab-themed e-commerce website featuring products, categories, prices, cart, checkout, and supporting online store features.",
+        "Modern online store website for hijab and modest fashion catalogs. Features category navigation, detailed product pages, shopping cart functionality, and a seamless checkout experience.",
       stack: ["Next.js", "React", "Tailwind CSS", "TypeScript", "GitHub", "Vercel"],
-      features: ["Product catalog", "Product detail", "Cart", "Checkout flow", "Payment integration planned"],
-      featuresEn: ["Product catalog", "Product detail", "Cart", "Checkout flow", "Payment integration planned"],
+      features: ["Katalog Produk & Kategori", "Halaman Detail Produk Dinamis", "Keranjang Belanja (Cart)", "Simulasi Alur Checkout", "Antarmuka UI/UX Elegan"],
+      featuresEn: ["Product & Category Catalog", "Dynamic Product Detail Pages", "Shopping Cart Functionality", "Checkout Flow Simulation", "Elegant UI/UX Interface"],
       demoUrl: "https://e-commerce-portfolio.vercel.app/",
       githubUrl: "https://github.com/makbarzidane/e-commerce-portfolio",
       previewImage: "/portfolio/ecommerce-hijab.png"
     },
     {
       name: "Besemah Coffee",
-      category: "Website UMKM Kopi",
-      categoryEn: "SME Coffee Website",
+      category: "Website Brand & Katalog UMKM",
+      categoryEn: "Brand Website & SME Catalog",
       description:
-        "Website demo untuk brand kopi lokal Pagar Alam yang membantu UMKM kopi terlihat lebih profesional dan mudah menerima pemesanan.",
+        "Website resmi dan katalog digital untuk brand kopi lokal Pagar Alam. Membantu UMKM mempresentasikan kualitas biji kopi, varian menu, paket promo, dan mempermudah pesanan langsung via WhatsApp.",
       descriptionEn:
-        "Demo website for a local Pagar Alam coffee brand, helping the SME look more professional and receive orders more easily.",
+        "Official brand website and digital catalog for a local Pagar Alam coffee producer. Helps the SME showcase coffee bean quality, menu variants, and promotional packages with direct WhatsApp ordering.",
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
-      features: ["Landing page kopi", "Menu produk", "Paket promo", "CTA WhatsApp order", "Galeri produk"],
-      featuresEn: ["Coffee landing page", "Product menu", "Promo packages", "WhatsApp order CTA", "Product gallery"],
+      features: ["Katalog Varian Kopi", "Informasi Brand & Kualitas", "Paket Penawaran & Promo", "Pemesanan Cepat WhatsApp", "Galeri Visual Produk"],
+      featuresEn: ["Coffee Variant Catalog", "Brand & Quality Story", "Promo & Bundle Packages", "Quick WhatsApp Ordering", "Product Visual Gallery"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/besemah-coffee-cms-portfolio",
       previewImage: "/portfolio/besemah-coffee.png"
     },
     {
       name: "Homestay Bukit Dempo",
-      category: "Landing Page Homestay",
-      categoryEn: "Homestay Landing Page",
+      category: "Website Profil & Reservasi Penginapan",
+      categoryEn: "Accommodation Profile & Booking Website",
       description:
-        "Website landing page untuk homestay yang menampilkan informasi penginapan, fasilitas, galeri, lokasi, dan pemesanan melalui WhatsApp.",
+        "Website profil penginapan dan portal reservasi untuk Homestay Bukit Dempo. Menampilkan tipe kamar, fasilitas lengkap, panduan wisata sekitar, serta sistem pemesanan kamar langsung terintegrasi WhatsApp.",
       descriptionEn:
-        "Landing page for a homestay featuring accommodation information, facilities, gallery, location, and WhatsApp booking.",
+        "Accommodation profile and booking portal website for Homestay Bukit Dempo. Showcases room types, full amenities, local tourism guides, and an integrated direct WhatsApp room reservation flow.",
       stack: ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Vercel"],
-      features: ["Informasi homestay", "Galeri kamar", "Fasilitas", "CTA booking WhatsApp", "Lokasi"],
-      featuresEn: ["Homestay information", "Room gallery", "Facilities", "WhatsApp booking CTA", "Location"],
+      features: ["Katalog Tipe Kamar & Harga", "Daftar Fasilitas Penginapan", "Galeri Foto & Lingkungan", "Panduan Lokasi & Peta", "Reservasi Langsung via WhatsApp"],
+      featuresEn: ["Room Types & Pricing Catalog", "Accommodation Amenities", "Photo & Surroundings Gallery", "Location & Map Guide", "Direct WhatsApp Booking"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/homestay-bukit-dempo-portfolio",
       previewImage: "/portfolio/homestay-bukit-dempo.png"
     },
     {
       name: "QR Ordering System Cafe",
-      category: "Sistem Pemesanan Cafe",
-      categoryEn: "Cafe Ordering System",
+      category: "Aplikasi Web & Sistem Pemesanan Cafe",
+      categoryEn: "Web Application & Cafe Ordering System",
       description:
-        "Sistem pemesanan makanan dan minuman berbasis QR Code untuk cafe. Pelanggan dapat scan QR dari meja, melihat menu, melakukan pemesanan, dan pesanan masuk ke dashboard admin.",
+        "Sistem pemesanan F&B berbasis web dan QR Code untuk otomatisasi kafe. Pelanggan dapat memindai QR dari meja untuk memesan, sementara pesanan masuk secara real-time ke dashboard admin dapur/kasir.",
       descriptionEn:
-        "QR Code-based food and beverage ordering system for cafes. Customers scan table QR codes, view menus, order, and orders appear in the admin dashboard.",
+        "Web-based QR Code F&B ordering system for cafe automation. Customers scan table QR codes to order, while orders are received in real-time on the kitchen/cashier admin dashboard.",
       stack: ["Next.js", "TypeScript", "Tailwind CSS", "API Route"],
-      features: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
-      featuresEn: ["QR menu", "Customer ordering page", "Admin order dashboard", "Menu management", "Order status"],
+      features: ["Menu Digital QR Code", "Halaman Order Pelanggan", "Dashboard Admin & Kasir", "Manajemen Status Pesanan", "CRUD Menu & Kategori"],
+      featuresEn: ["QR Code Digital Menu", "Customer Ordering Page", "Admin & Cashier Dashboard", "Order Status Management", "Menu & Category CRUD"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/Tugas-Web-CRUD_RHYZ",
       previewImage: "/portfolio/qr-ordering-cafe.png"
     },
     {
       name: "Apex Legends Sentiment Analysis",
-      category: "Proyek Data Analyst / AI",
-      categoryEn: "Data Analyst / AI Project",
+      category: "Proyek Data Science & Machine Learning",
+      categoryEn: "Data Science & Machine Learning Project",
       description:
-        "Project analisis sentimen review game Apex Legends dari platform Steam menggunakan pendekatan machine learning untuk mengetahui opini positif dan negatif dari pemain.",
+        "Proyek analisis data dan pemrosesan bahasa alami (NLP) untuk membedah sentimen ulasan pemain game Apex Legends di Steam, menghasilkan wawasan berbasis data tentang kepuasan pemain.",
       descriptionEn:
-        "Sentiment analysis project for Apex Legends Steam reviews using machine learning to identify positive and negative player opinions.",
+        "Data analysis and Natural Language Processing (NLP) project analyzing Apex Legends player reviews on Steam, delivering data-driven insights into player satisfaction.",
       stack: ["Python", "Pandas", "Naive Bayes", "Data Cleaning", "Sentiment Analysis"],
-      features: ["Dataset review Steam", "Preprocessing text", "Klasifikasi sentimen", "Insight bisnis", "Visualisasi hasil"],
-      featuresEn: ["Steam review dataset", "Text preprocessing", "Sentiment classification", "Business insight", "Result visualization"],
+      features: ["Pengumpulan Dataset Steam", "Preprocessing & Cleaning Teks", "Klasifikasi Sentimen Naive Bayes", "Visualisasi Wawasan Bisnis", "Laporan Evaluasi Model"],
+      featuresEn: ["Steam Dataset Collection", "Text Preprocessing & Cleaning", "Naive Bayes Sentiment Classification", "Business Insight Visualization", "Model Evaluation Report"],
       demoUrl: "",
       githubUrl: "https://github.com/makbarzidane/analisis_sentimen_revew_apex_legends_dashboard",
       previewImage: "/portfolio/apex-sentiment.png"
