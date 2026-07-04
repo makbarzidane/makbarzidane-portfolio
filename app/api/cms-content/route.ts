@@ -8,10 +8,16 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const content = await readBlobContent();
-    return NextResponse.json({ content, source: "vercel-blob" });
+    return NextResponse.json(
+      { content, source: "vercel-blob" },
+      { headers: { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" } }
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Konten online belum tersedia.";
-    return NextResponse.json({ content: defaultCmsContent, source: "default", message });
+    return NextResponse.json(
+      { content: defaultCmsContent, source: "default", message },
+      { headers: { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" } }
+    );
   }
 }
 

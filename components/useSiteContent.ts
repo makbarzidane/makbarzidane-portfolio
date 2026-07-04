@@ -18,11 +18,12 @@ export function useSiteContent() {
   useEffect(() => {
     async function loadContent() {
       try {
-        const response = await fetch("/api/cms-content", { cache: "no-store" });
+        const response = await fetch(`/api/cms-content?t=${Date.now()}`, { cache: "no-store" });
         if (response.ok) {
           const result = (await response.json()) as { content?: Partial<EditableContent> };
           if (result.content) {
             const merged = mergeContent(result.content);
+            window.localStorage.setItem(cmsStorageKey, JSON.stringify(merged));
             setContent(merged);
             return;
           }
