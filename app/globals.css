@@ -306,27 +306,37 @@ button {
   .cv-print span,
   .cv-print p,
   .cv-print h1,
-  .cv-print h2 {
+  .cv-print h2,
+  .cv-print h3,
+  .cv-print li,
+  .cv-print ul {
     box-shadow: none !important;
     color: #0f172a !important;
   }
 
   .cv-print section {
-    break-inside: avoid;
     background: #ffffff !important;
     border: 1px solid #dbe3ef !important;
     margin-top: 14px !important;
     padding: 20px !important;
   }
 
+  .cv-print section > div > div,
+  .cv-print section > div > a {
+    break-inside: avoid;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+
   .cv-print a,
   .cv-print span {
-    background: #f8fafc !important;
-    border-color: #dbe3ef !important;
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
     text-decoration: none !important;
   }
 
-  .cv-print p {
+  .cv-print p,
+  .cv-print li {
     color: #334155 !important;
   }
 }
