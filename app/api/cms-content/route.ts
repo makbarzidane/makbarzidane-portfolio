@@ -21,15 +21,30 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = (await request.json()) as { content?: EditableContent };
+    const body = (await request.json()) as { content?: Partial<EditableContent> };
     if (!body.content) {
       return NextResponse.json({ message: "Data konten kosong." }, { status: 400 });
     }
 
-    await writeBlobContent(body.content);
-    return NextResponse.json({ ok: true });
+    let existingContent: EditableContent;
+    try {
+      existingContent = await readBlobContent();
+    } catch {
+      existingContent = defaultCmsContent;
+    }
+
+    const mergedContent: EditableContent = {
+      hero: { ...existingContent.hero, ...(body.content.hero || {}) },
+      contacts: { ...existingContent.contacts, ...(body.content.contacts || {}) },
+      projects: Array.isArray(body.content.projects) ? body.content.projects : existingContent.projects,
+      agents: Array.isArray(body.content.agents) ? body.content.agents : existingContent.agents
+    };
+
+    await writeBlobContent(mergedContent);
+    return NextResponse.json({ ok: true, content: mergedContent });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Gagal menyimpan konten online.";
     return NextResponse.json({ message }, { status: 500 });
   }
 }
+

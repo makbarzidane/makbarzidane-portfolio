@@ -9,18 +9,6 @@ function ensureBlobConfigured() {
   }
 }
 
-function createSafeFileName(name: string) {
-  const extension = name.includes(".") ? name.split(".").pop()?.toLowerCase() : "";
-  const safeBase = name
-    .replace(/\.[^.]+$/, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 56) || "asset";
-
-  return `${Date.now()}-${safeBase}${extension ? `.${extension}` : ""}`;
-}
-
 export async function readBlobContent(): Promise<EditableContent> {
   ensureBlobConfigured();
 
@@ -55,20 +43,4 @@ export async function writeBlobContent(content: EditableContent) {
     contentType: "application/json",
     cacheControlMaxAge: 60
   });
-}
-
-export async function writeBlobAsset(file: File) {
-  ensureBlobConfigured();
-
-  const fileName = createSafeFileName(file.name);
-  const pathname = `cms-uploads/${fileName}`;
-
-  const blob = await put(pathname, file, {
-    access: "public",
-    addRandomSuffix: true,
-    contentType: file.type || "application/octet-stream",
-    cacheControlMaxAge: 60 * 60 * 24 * 30
-  });
-
-  return blob.url;
 }

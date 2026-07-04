@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
+import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
 import { isCmsSessionValid } from "@/lib/cmsAuth";
-import { writeBlobAsset } from "@/lib/vercelBlobCmsStorage";
 
-const allowedTypes = new Set(["image/png", "image/jpeg", "image/webp", "image/gif", "application/pdf"]);
-const maxFileSize = 8 * 1024 * 1024;
+const allowedTypes = ["image/*", "application/pdf"];
+const maxFileSize = 50 * 1024 * 1024;
 
 export async function POST(request: Request) {
   if (!isCmsSessionValid()) {
@@ -11,23 +11,19 @@ export async function POST(request: Request) {
   }
 
   try {
-    const formData = await request.formData();
-    const file = formData.get("file");
+    const body = (await request.json()) as HandleUploadBody;
+    const result = await handleUpload({
+      body,
+      request,
+      onBeforeGenerateToken: async () => ({
+        allowedContentTypes: allowedTypes,
+        maximumSizeInBytes: maxFileSize,
+        addRandomSuffix: true,
+        cacheControlMaxAge: 60 * 60 * 24 * 30
+      })
+    });
 
-    if (!(file instanceof File)) {
-      return NextResponse.json({ message: "File upload tidak ditemukan." }, { status: 400 });
-    }
-
-    if (!allowedTypes.has(file.type)) {
-      return NextResponse.json({ message: "Format file tidak didukung. Gunakan gambar atau PDF." }, { status: 400 });
-    }
-
-    if (file.size > maxFileSize) {
-      return NextResponse.json({ message: "Ukuran file maksimal 8 MB." }, { status: 400 });
-    }
-
-    const url = await writeBlobAsset(file);
-    return NextResponse.json({ url });
+    return NextResponse.json(result);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Gagal upload file online.";
     return NextResponse.json({ message }, { status: 500 });
